@@ -326,47 +326,8 @@ $wfstate = $this->data['entity_state'];
     echo '<td style="width: 20%;"><h3>'. $this->t('tab_edit_entity_entry') .'</h3></td>';
     echo '<td><h3>'. $this->t('tab_edit_entity_value') .'</h3></td>';
     echo '</tr>';
-	
-    if($this->data['uiguard']->hasPermission('addmetadata', $wfstate, $this->data['user']->getType())) {
-	    echo '<tr id="add_meta">';
-        echo '<td>';
-		echo '<select id="metadata_select" name="meta_key" onchange="changeId(this);">';
-		echo '<option value="NULL">-- '. $this->t('tab_edit_entity_select') .' --</option>';
-		foreach($this->data['metadata_fields'] AS $metadata_key => $metadata_val) {
-            if(array_key_exists('required', $metadata_val) && $metadata_val['required'] === true) {
-		        echo '<option style="background-color: #FF0000;" value="', $metadata_key, '">', $metadata_key, '</option>';
-            }
-		    echo '<option value="', $metadata_key, '">', $metadata_key, '</option>';
-		}
-		echo '</select>';
-        echo '</td>';
-        echo '<td>';
-        echo '</td>';
-        echo '<td>';
-        echo '</td>';
-        echo '</tr>';
-        echo '<tr id="mata_delim">';
-        echo '<td style="height: 10px;">';
-        echo '<a onclick="addMetadataInput(this);"><img src="resources/images/pm_plus_16.png" alt="Plus" /></a>';
-        echo '</td>';
-        echo '<td colspan="2">';
-        foreach($this->data['metadata_fields'] AS $k => $v) {
-            echo '<div style="background:#CCCCCC url(resources/images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50%; padding: 3px; display: none; border: ridge 1px #AAAAAA; float: center; width: 300px; margin-left:auto; margin-right:auto;" id="metadata-desc-'. $k .'">';
-            echo '<div style="text-align: center;">';
-            echo '<b>'. $this->t('text_help') .'</b>';
-            echo '</div>';
-            echo $v['description'];
-            echo '</div>';
-        }
-        echo '</td>';
-        echo '</tr>';
-        echo '<tr>';
-        echo '<td colspan="3" style="height: 10px;">';
-        echo '</td>';
-        echo '</tr>';
-    }
 
-	if(!$metadata = $this->data['mcontroller']->getMetadata()) {
+	if(!$metadata = $this->data['metadata']) {
 		echo "Not metadata for entity ". $this->data['entity']->getEntityId() . '<br /><br />';
 	} else {
         $color = 'EEEEEE';
@@ -401,6 +362,47 @@ $wfstate = $this->data['entity_state'];
 			echo '</tr>';
 		}
 	}
+    
+    if($this->data['uiguard']->hasPermission('addmetadata', $wfstate, $this->data['user']->getType())) {
+	    echo '<tr id="add_meta">';
+        echo '<td>';
+		echo '<select id="metadata_select" name="meta_key" onchange="changeId(this);">';
+		echo '<option value="NULL">-- '. $this->t('tab_edit_entity_select') .' --</option>';
+		foreach($this->data['metadata_fields'] AS $metadata_key => $metadata_val) {
+            if(array_key_exists('required', $metadata_val) && $metadata_val['required'] === true) {
+		        echo '<option style="background-color: #FF0000;" value="', $metadata_key, '">', $metadata_key, '</option>';
+            } else {
+		        echo '<option value="', $metadata_key, '">', $metadata_key, '</option>';
+            }
+		}
+		echo '</select>';
+        echo '</td>';
+        echo '<td>';
+        echo '</td>';
+        echo '<td>';
+        echo '</td>';
+        echo '</tr>';
+        echo '<tr id="mata_delim">';
+        echo '<td style="height: 10px;">';
+        echo '<a onclick="addMetadataInput(this);"><img src="resources/images/pm_plus_16.png" alt="Plus" /></a>';
+        echo '</td>';
+        echo '<td colspan="2">';
+        foreach($this->data['metadata_fields'] AS $k => $v) {
+            echo '<div style="background:#CCCCCC url(resources/images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50%; padding: 3px; display: none; border: ridge 1px #AAAAAA; float: center; width: 300px; margin-left:auto; margin-right:auto;" id="metadata-desc-'. $k .'">';
+            echo '<div style="text-align: center;">';
+            echo '<b>'. $this->t('text_help') .'</b>';
+            echo '</div>';
+            echo $v['description'];
+            echo '</div>';
+        }
+        echo '</td>';
+        echo '</tr>';
+        echo '<tr>';
+        echo '<td colspan="3" style="height: 10px;">';
+        echo '</td>';
+        echo '</tr>';
+    }
+
 	echo '</table>';
 	?>
 </div>
