@@ -40,7 +40,40 @@ $(document).ready(function() {
         var id = $("#entity_workflow_select option:selected").attr("value");
         $("#wf-desc-"+id).show();
     });
+    
+    $(":input").bind("change", function(e) {
+        blinker(5);
+    });
 });
+
+
+function blinker(x) {
+    // Set the color the field should blink in
+    var backgroundColor = \'#FF0000\';
+    var existingBgColor;
+    
+    // Load the current background color
+    existingBgColor = $("#master_submit").css(\'background-color\');
+
+    // Set the new background color
+    $("#master_submit").css(\'background-color\', backgroundColor);
+    
+    if(x == 0) {
+        return;
+    }
+
+    // Set it back to old color after 500 ms
+    setTimeout(
+        function() { 
+            //$("#master_submit").css(\'background-color\', existingBgColor); 
+            $("#master_submit").css(\'background-color\', \'\'); 
+        }, 
+        500
+    );
+
+    var y = x-1;
+    setTimeout("blinker(" + y + ");", 1000);
+}
 
 </script>';
 
@@ -163,9 +196,9 @@ $wfstate = $this->data['entity_state'];
 				<?php
 				foreach($this->data['workflow'] AS $wf) {
 					if($wfstate == $wf) {
-						echo '<option value="'. $wf .'" selected="selected">'. $this->data['workflowstates'][$wf]['name'] .'</option>';
+						echo '<option value="'. $wf .'" selected="selected">'. $this->data['workflowstates'][$wf]['name'][$this->getLanguage()] .'</option>';
 					} else {
-						echo '<option value="'. $wf .'">'. $this->data['workflowstates'][$wf]['name'] .'</option>';
+						echo '<option value="'. $wf .'">'. $this->data['workflowstates'][$wf]['name'][$this->getLanguage()] .'</option>';
 					}
 				}
 				?>
@@ -173,7 +206,7 @@ $wfstate = $this->data['entity_state'];
 				<?php
 				} else {
 					echo '<input type="hidden" name="entity_workflow" value="'. $wfstate .'">';
-					echo $this->data['workflowstates'][$wfstate]['name'];
+					echo $this->data['workflowstates'][$wfstate]['name'][$this->getLanguage()];
 				
 				}
 				?>
@@ -211,7 +244,7 @@ $wfstate = $this->data['entity_state'];
             <td style="width: 50%; vertical-align: top;">
             <?php
             foreach($this->data['workflow'] AS $wf) {
-                echo '<div style="background:#CCCCCC url(resources/images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50%; padding: 3px; display: none; border: ridge 1px #AAAAAA; float: center; width: 300px; margin-left:auto; margin-right:auto;" id="wf-desc-'. $wf .'"><div style="text-align: center;"><b>'. $this->t('text_help') .'</b></div>'. $this->data['workflowstates'][$wf]['description'] .'</div>';
+                echo '<div style="background:#CCCCCC url(resources/images/ui-bg_highlight-soft_75_cccccc_1x100.png) repeat-x scroll 50% 50%; padding: 3px; display: none; border: ridge 1px #AAAAAA; float: center; width: 300px; margin-left:auto; margin-right:auto;" id="wf-desc-'. $wf .'"><div style="text-align: center;"><b>'. $this->t('text_help') .'</b></div>'. $this->data['workflowstates'][$wf]['description'][$this->getLanguage()] .'</div>';
             }
 ?>
             </td>
@@ -336,9 +369,15 @@ $wfstate = $this->data['entity_state'];
 			echo '<tr style="background-color: #'. $color.';">';
 			echo '<td width="1%">'. $data->getkey() . '</td>';
 			echo '<td>';
+            if(isset($this->data['metadata_fields'][$data->getKey()]['required'])) {
+                $requiredfield = $this->data['metadata_fields'][$data->getKey()]['required'];
+            } else {
+                $requiredfield = false;
+            }
             switch($this->data['metadata_fields'][$data->getKey()]['type']) {
                 case 'text':
 			        echo '<input style="width: 100%;" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . '>';
+                    unset($this->data['metadata_fields'][$data->getKey()]);
                     break;
                 case 'boolean':
                     if($data->getValue() == 'true') {
@@ -350,15 +389,19 @@ $wfstate = $this->data['entity_state'];
                     }
 			        echo '<input value="true" type="checkbox" style="margin-left: 10px;" name="edit-metadata-'. $data->getKey()  .'-TRUE" '. $checked_true .' ' . $modifymetadata . ' onclick="changeFalse(this);">';
 			        echo '<input value="false" type="checkbox" style="display: none;" name="edit-metadata-'. $data->getKey()  .'-FALSE" '. $checked_false .' ' . $modifymetadata . '>';
+                    unset($this->data['metadata_fields'][$data->getKey()]);
                     break;
                 default:
 			        echo '<input style="width: 100%;" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . '>';
+                    unset($this->data['metadata_fields'][$data->getKey()]);
             }
 			echo '<input type="checkbox" style="display:none;" value="'. $data->getKey() .'" id="delete-matadata-'. $data->getKey() .'" name="delete-metadata[]" >';
 			echo '</td>';
-			if($deletemetadata) {
+			if($deletemetadata && !$requiredfield) {
 				echo '<td align="right"><a onClick="javascript:if(confirm(\'Vil du slette metadata?\')){$(\'#delete-matadata-'. str_replace(array(':', '.', '#') , array('\\\\:', '\\\\.', '\\\\#'), $data->getKey()) .'\').attr(\'checked\', \'checked\');$(\'#mainform\').trigger(\'submit\');}"><img src="resources/images/pm_delete_16.png" alt="'. strtoupper($this->t('admin_delete')) .'" /></a></td>';
-			}
+			} else {
+                echo '<td></td>';
+            }
 			echo '</tr>';
 		}
 	}
@@ -566,7 +609,7 @@ if($this->data['uiguard']->hasPermission('exportmetadata', $wfstate, $this->data
 </div>
 <hr>
 <?php echo $this->t('tab_edit_entity_revision_note'); ?>: <input type="text" name="revisionnote" style="width: 700px;" />
-<input type="submit" name="formsubmit" value="<?php echo $this->t('tab_edit_entity_save'); ?>" style="float: right;"/>
+<input type="submit" name="formsubmit" id="master_submit" value="<?php echo $this->t('tab_edit_entity_save'); ?>" style="float: right;"/>
 <!-- END CONTENT -->
 </div>
 
