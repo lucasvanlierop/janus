@@ -16,6 +16,9 @@ $config = array(
 	'auth' => 'mailtoken',
 	'useridattr' => 'mail',
 
+    // The field used to match the useridattr value in user table DB.
+    'user_load_type' => USERID_LOAD,
+
     /**
      * Mailtoken specific stuff
      */
