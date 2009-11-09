@@ -238,7 +238,6 @@ class sspmod_janus_User extends sspmod_janus_Database
     {
         $load_type_map = array(
             self::UID_LOAD => array('uid', $this->_uid),
-            self::EMAIL_LOAD => array('email', $this->_email),
             self::USERID_LOAD => array('userid', $this->_userid),
         );
         
@@ -264,6 +263,7 @@ class sspmod_janus_User extends sspmod_janus_Database
                 'JANUS:User:save - Error executing statement : ' 
                 .self::$db->errorInfo()
             );
+            exit;
         }
 
         $rs = $st->fetchAll(PDO::FETCH_ASSOC);
