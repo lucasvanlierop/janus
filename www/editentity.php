@@ -123,9 +123,9 @@ if(!empty($_POST)) {
     // Update metadata and attributes
     foreach($_POST AS $key => $value) {
         //Metadata
-		if(substr($key, 0, 14) == 'edit-metadata-') {
-			if(!is_array($value)) {
-				$newkey = substr($key, 14, strlen($key));
+        if(substr($key, 0, 14) == 'edit-metadata-') {
+            if(!empty($value) && !is_array($value)) {
+                $newkey = substr($key, 14, strlen($key));
 
                 // If field is boolean
                 if(substr($newkey, -4) == 'TRUE') {
@@ -135,9 +135,9 @@ if(!empty($_POST)) {
                     $newkey = substr($newkey, 0, -6);
                     $value = 'false';
                 }
-				
+
                 if($mcontroller->updateMetadata($newkey, $value)) {
-					$update = TRUE;
+                    $update = TRUE;
                     $note .= 'Metadata edited: ' . $newkey . ' => ' . $value . '<br />';
                 }
             }
