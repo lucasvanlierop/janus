@@ -323,7 +323,6 @@ $lang = array(
         'es' => 'Estado',
     ),
 
-
     'tab_edit_entity_connection_entityid' => array(
         'da' => 'Forbindelses ID',
         'en' => 'Connection ID',
@@ -346,7 +345,6 @@ $lang = array(
         'da' => 'Marker de tjenester som du ikke ønsker dine brugere skal have adgang til.',
         'en' => 'Mark services that your users are not allowed to access.',
         'es' => 'Marca los servicios a los que a tus usuarios no les está permitido acceder',
-
     ),
 
     'tab_remote_entity_help_saml20-sp' => array(
@@ -552,7 +550,7 @@ $lang = array(
     'error_no_access' => array(
         'da' => 'Du har ikke adgang til denne ressource',
         'en' => 'You do not have access to this resource',
-    'es' => 'No tienes acceso para acceder a este recurso',
+        'es' => 'No tienes acceso para acceder a este recurso',
     ),
 
     'text_help' => array(
