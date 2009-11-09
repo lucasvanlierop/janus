@@ -311,6 +311,12 @@ $config = array(
         ),
     ),
 
+    'required.metadatafields.saml20-idp' => array(
+        'SingleLogoutService',
+        'SingleSignOnService',
+        'certData',
+    ),
+
     /*
      * Allowed metadata names for SPs. If USERDEFINED is set no restrictions is
      * put on metadata names.
@@ -420,6 +426,10 @@ $config = array(
             'default' => 'defaultvalue',
             'description' => 'Description',
         ),
+    ),
+
+    'required.metadatafields.saml20-sp' => array(
+        'AssertionConsumerService',
     ),
 
     /*
@@ -534,6 +544,11 @@ $config = array(
         ),
     ),
 
+    'required.metadatafields.shib13-idp' => array(
+        'SingleSignOnService',
+        'certData',
+    ),
+
     /*
      * Allowed metadata names for SPs. If USERDEFINED is set no restrictions is
      * put on metadata names.
@@ -637,6 +652,10 @@ $config = array(
             'default' => 'defaultvalue',
             'description' => 'Description',
         ),
+    ),
+
+    'required.metadatafields.shib13-sp' => array(
+        'AssertionConsumerService',
     ),
 
     /*

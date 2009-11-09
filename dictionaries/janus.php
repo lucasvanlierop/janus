@@ -699,6 +699,49 @@ $lang = array(
         'es' => 'Instalar',
     ),
 
+    //Metalisting
+    'validation_metadata_column' => array(
+        'en' => 'Valid Metadata',
+        'es' => 'Metadatos válidos',
+     ),
+
+    'validation_certificate_column' => array(
+        'en' => 'Valid Certificate',
+        'es' => 'Certificado válido',
+     ),
+
+    'validation_identity_column' => array(
+        'en' => 'Entity ID or Name',
+        'es' => 'ID de Entidad o Nombre',
+     ),
+
+    'validation_problem' => array(
+        'en' => 'Validation problem',
+        'es' => 'Problema de validación',
+    ),
+
+    'validation_warning' => array(
+        'en' => 'Validation warning',
+        'es' => 'Posible problema de validación',
+    ),
+
+    'validation_success' => array(
+        'en' => 'Validation success',
+        'es' => 'Validación correcta',
+    ),
+
+    'cert_not_found' => array(
+        'da' => 'Certifikat ikke findes i virksomheden metadata',
+        'en' => 'Certificate not found in entity metadata',
+        'es' => 'No se encontro certificado en los metadatos de la entidad',
+    ),
+
+    'missing_require_metadata' => array(
+        'da' => 'Følgende metadatafields af den enhed, der kræves, men ikke til stede:',
+        'en' => 'The following metadatafields of the entity are required but not present:',
+        'es' => 'Los siguientes metadatos son requeridos pero no existen en la entidad:',
+    ),
+
     /*
     '' => array(
         'da' => '',
