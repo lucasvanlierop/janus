@@ -826,6 +826,15 @@ $config = array(
                 ),
             ),
         ),
+        // Disable consent
+        'disableconsent' => array(
+            'default' => FALSE,
+            'testaccepted' => array(
+                'role' => array(
+                    'all',
+                ),
+            ),
+        ),
 
         /*
          * General permissions
