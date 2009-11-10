@@ -16,6 +16,9 @@ $config = array(
     'auth' => 'mailtoken',
     'useridattr' => 'mail',
 
+    // Cron tags says when Janus hook is executed
+    'cron' => array('daily'),
+
     /**
      * Mailtoken specific stuff
      */
