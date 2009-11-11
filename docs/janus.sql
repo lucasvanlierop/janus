@@ -167,6 +167,19 @@ CREATE TABLE `janus__message` (
   `ip` char(15) default NULL,
   PRIMARY KEY  (`mid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=227 DEFAULT CHARSET=latin1;
+
+--
+-- Table structure for table `janus__disableConsent`
+--
+
+DROP TABLE IF EXISTS `janus__disableConsent`;
+CREATE TABLE `janus__disableConsent` (
+  `eid` int(11) NOT NULL,
+  `revisionid` int(11) NOT NULL,
+  `remoteentityid` text NOT NULL,
+  `created` char(25) NOT NULL,
+  `ip` char(15) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
