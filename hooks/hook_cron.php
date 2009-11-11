@@ -48,7 +48,6 @@ function janus_hook_cron(&$croninfo) {
     SimpleSAML_Logger::info('cron [janus]: Running cron in cron tag [' . $croninfo['tag'] . '] ');
 
     try {
-        $config = SimpleSAML_Configuration::getInstance();
         $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');
 
         $cron_tags = $janus_config->getArray('cron', array());
