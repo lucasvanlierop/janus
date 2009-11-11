@@ -23,7 +23,8 @@ $usertypes = $janus_config->getValue('usertypes');
 
 $et = new SimpleSAML_XHTML_Template($config, 'janus:janus-newUser.php', 'janus:janus');
 
-if(isset($_POST['submit'])) {
+$allow_usercreation = $janus_config->getBoolean('usercreation.allow', true);
+if($allow_usercreation && isset($_POST['submit'])) {
     $user = new sspmod_janus_User($janus_config->getValue('store'));
     $user->setUserid($_POST['userid']);
     $user->setType($_POST['type']);
@@ -37,5 +38,7 @@ if(isset($_GET['userid'])) {
 }
 $et->data['users'] = $econtroller->getUsers();
 $et->data['usertypes'] = $usertypes;
+$et->data['allow_usercreation'] = $allow_usercreation;
+$et->data['admin_email'] = $janus_config->getValue('admin.email', '');
 $et->show();
 ?>

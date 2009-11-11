@@ -26,6 +26,24 @@ $lang = array(
         'es' => 'Vas a crear una cuenta de usuario en JANUS con el nombre de usuario %USERID%.<br />Pulsa enter para crear la cuenta',
     ),
 
+    'error_createuser_permission' => array(
+        'da' => 'Du kan ikke oprette en ny brugerkonto.',
+        'en' => 'You can not create a new user account.',
+        'es' => 'No puedes crear una nueva cuenta de usuario.',
+    ),
+
+    'error_createuser_permission_reason' => array(
+        'da' => 'Systemet ikke lader dig lave din egen konto',
+        'en' => 'The system does not let you make your own account',
+        'es' => 'El sistema no permite que puedas crearte tu propia cuenta',
+    ),
+
+    'error_createuser_permission_admin_contact' => array(
+        'da' => 'skal du kontakte Janus admin.',
+        'en' => 'contact Janus admin',
+        'es' => 'contacta con el administrador de Janus',
+    ),
+
     // Misc
     'text_select_type' => array(
         'da' => 'Vælg type',

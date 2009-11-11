@@ -100,6 +100,12 @@ $config = array(
     'enable.shib13-sp' =>   false,
     'enable.shib13-idp' =>  false,
 
+
+    /*
+     * Enable self user creation
+     */
+    'usercreation.allow' => true,
+
     /*
      * Configuration of systems in JANUS.
      */
