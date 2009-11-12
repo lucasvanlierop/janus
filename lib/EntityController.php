@@ -579,14 +579,14 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                 if(is_array($value)) {
                     foreach($value AS $subvalue) {
                         if ($this->hasMetadata($key)) {
-                            if (!$this->updateMetadata($key, $subvalue)) {
+                            if (!$this->updateMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::error(
                                     'importMetadata20SP - Metadata field ' . $key 
                                     . ' with value ' . $subvalue . ' was not added.'
                                 );
                             }
                         } else {
-                            if (!$this->addMetadata($key, $subvalue)) {
+                            if (!$this->addMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::error(
                                     'importMetadata20SP - Metadata field ' . $key 
                                     . ' with value ' . $subvalue . ' was not added.'
@@ -599,14 +599,14 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                 if(is_array($value)) {
                     foreach($value AS $subvalue) {
                         if ($this->hasMetadata($key)) {
-                            if (!$this->updateMetadata($key, $subvalue)) {
+                            if (!$this->updateMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::error(
                                     'importMetadata20SP - Metadata field ' . $key 
                                     . ' with value ' . $subvalue . ' was not added.'
                                 );
                             }
                         } else {
-                            if (!$this->addMetadata($key, $subvalue)) {
+                            if (!$this->addMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::error(
                                     'importMetadata20SP - Metadata field ' . $key 
                                     . ' with value ' . $subvalue . ' was not added.'
@@ -640,13 +640,13 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     /**
      * Import IdP SAML 2.0 metadata.
      *
-     * Imports IdP SAML 2.0 metadata. The entity id is conpared with that entity id
+     * Imports IdP SAML 2.0 metadata. The entity id is conpared with that entity id 
      * given in the metadata parsed.
      *
      * @param string $metadata SAML 2.0 metadata
      *
-     * @return string Return status_metadata_parsed_ok on success and
-     * error_not_valid_saml20, error_metadata_not_parsed or
+     * @return string Return status_metadata_parsed_ok on success and 
+     * error_not_valid_saml20, error_metadata_not_parsed or 
      * error_entityid_no_match on error.
      */
     public function importMetadata20IdP($metadata)
@@ -657,7 +657,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
 
         // Parse metadata
         try {
-            $parser = SimpleSAML_Metadata_SAMLParser::parseString($metadata);
+            $parser = SimpleSAML_Metadata_SAMLParser::parseString($metadata);  
         } catch (Exception $e) {
             SimpleSAML_Logger::error(
                 'importMetadata20IdP - Metadata not valid SAML 2.0'
@@ -684,11 +684,11 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
             SimpleSAML_Logger::error(
                 'importMetadata20IdP - EntityId does not match'
             );
-            return 'error_entityid_no_match';
+            return 'error_entityid_no_match';	
         } else {
             unset($parsedmetadata['entityid']);
         }
-
+        
         // Add metadata fields
         foreach ($parsedmetadata AS $key => $value) {
             if ($key == 'name') {
@@ -698,14 +698,14 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                         if ($this->hasMetadata($metadatakey)) {
                             if (!$this->updateMetadata($metadatakey, $metadatavalue)) {
                                 SimpleSAML_Logger::error(
-                                    'importMetadata20IdP - Metadata field ' . $key
+                                    'importMetadata20IdP - Metadata field ' . $key 
                                     . ' with value ' . $metadatavalue . ' was not added.'
                                 );
                             }
                         } else {
                             if (!$this->addMetadata($metadatakey, $metadatavalue)) {
                                 SimpleSAML_Logger::error(
-                                    'importMetadata20IdP - Metadata field ' . $key
+                                    'importMetadata20IdP - Metadata field ' . $key 
                                     . ' with value ' . $metadatavalue . ' was not added.'
                                 );
                             }
@@ -716,61 +716,82 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                     SimpleSAML_Logger::debug('importMetadata20IdP - name field not array');
                 }
             } elseif ($key == 'SingleSignOnService') {
-                if(empty($value)) {
-                    continue;
-                }
-                if ($this->hasMetadata($key)) {
-                    if (!$this->updateMetadata($key, $value)) {
-                        SimpleSAML_Logger::error(
-                            'importMetadata20IdP - Metadata field ' . $key
-                            . ' with value ' . $value . ' was not added.'
-                            );
-                    } else {
-                        if (!$this->addMetadata($key, $value)) {
-                            SimpleSAML_Logger::error(
-                                'importMetadata20IdP - Metadata field ' . $key
-                                . ' with value ' . $value . ' was not added.'
+                if (is_array($value)) {
+                    if(empty($value)) {
+                        continue;
+                    }
+                    foreach ($value AS $metadatavalue) {
+                        if ($this->hasMetadata($key)) {
+                            if (!$this->updateMetadata($key, $metadatavalue['Location'])) {
+                                SimpleSAML_Logger::error(
+                                    'importMetadata20IdP - Metadata field ' . $key 
+                                    . ' with value ' . $metadatavalue . ' was not added.'
                                 );
+                            }
+                        } else {
+                            if (!$this->addMetadata($key, $metadatavalue)) {
+                                SimpleSAML_Logger::error(
+                                    'importMetadata20IdP - Metadata field ' . $key 
+                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                );
+                            }
                         }
                     }
+                } else {
+                    // Should not happen
+                    SimpleSAML_Logger::debug('importMetadata20IdP - SingleSignOnService field not array');
                 }
             } elseif ($key == 'SingleLogoutService') {
-                if(empty($value)) {
-                    continue;
-                }
-                if ($this->hasMetadata($key)) {
-                    if (!$this->updateMetadata($key, $value)) {
-                        SimpleSAML_Logger::error(
-                            'importMetadata20IdP - Metadata field ' . $key
-                            . ' with value ' . $value . ' was not added.'
-                            );
+                if (is_array($value)) {
+                    if(empty($value)) {
+                        continue;
+                    }
+                    foreach ($value AS $metadatavalue) {
+                        if ($this->hasMetadata($key)) {
+                            if (!$this->updateMetadata($key, $metadatavalue['Location'])) {
+                                SimpleSAML_Logger::error(
+                                    'importMetadata20IdP - Metadata field ' . $key 
+                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                );
+                            }
+                        } else {
+                            if (!$this->addMetadata($key, $metadatavalue)) {
+                                SimpleSAML_Logger::error(
+                                    'importMetadata20IdP - Metadata field ' . $key 
+                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                );
+                            }
+                        }
                     }
                 } else {
-                    if (!$this->addMetadata($key, $value)) {
-                        SimpleSAML_Logger::error(
-                            'importMetadata20IdP - Metadata field ' . $key
-                            . ' with value ' . $value . ' was not added.'
-                            );
-                    }
+                    // Should not happen
+                    SimpleSAML_Logger::debug('importMetadata20IdP - SingleLogoutService field not array');
                 }
             } elseif ($key == 'ArtifactResolutionService') {
-                if(empty($value)) {
-                    continue;
-                }
-                if ($this->hasMetadata($key)) {
-                    if (!$this->updateMetadata($key, $value)) {
-                        SimpleSAML_Logger::error(
-                            'importMetadata20IdP - Metadata field ' . $key
-                            . ' with value ' . $value . ' was not added.'
-                            );
+                if (is_array($value)) {
+                    if(empty($value)) {
+                        continue;
+                    }
+                    foreach ($value AS $metadatavalue) {
+                        if ($this->hasMetadata($key)) {
+                            if (!$this->updateMetadata($key, $metadatavalue['Location'])) {
+                                SimpleSAML_Logger::error(
+                                    'importMetadata20IdP - Metadata field ' . $key 
+                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                );
+                            }
+                        } else {
+                            if (!$this->addMetadata($key, $metadatavalue)) {
+                                SimpleSAML_Logger::error(
+                                    'importMetadata20IdP - Metadata field ' . $key 
+                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                );
+                            }
+                        }
                     }
                 } else {
-                    if (!$this->addMetadata($key, $value)) {
-                        SimpleSAML_Logger::error(
-                            'importMetadata20IdP - Metadata field ' . $key
-                            . ' with value ' . $value . ' was not added.'
-                            );
-                    }
+                    // Should not happen
+                    SimpleSAML_Logger::debug('importMetadata20IdP - ArtifactResolutionService field not array');
                 }
             } elseif ($key == 'description') {
                 // Not user in SAML2 metadata. Only used in SSP flatfile metadata
@@ -781,14 +802,14 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                         if ($this->hasMetadata('certFingerprint')) {
                             if (!$this->updateMetadata('certFingerprint', $metadatavalue)) {
                                 SimpleSAML_Logger::error(
-                                    'importMetadata20IdP - Metadata field ' . $key
+                                    'importMetadata20IdP - Metadata field ' . $key 
                                     . ' with value ' . $metadatavalue . ' was not added.'
                                 );
                             }
                         } else {
                             if (!$this->addMetadata('certFingerprint', $metadatavalue)) {
                                 SimpleSAML_Logger::error(
-                                    'importMetadata20IdP - Metadata field ' . $key
+                                    'importMetadata20IdP - Metadata field ' . $key 
                                     . ' with value ' . $metadatavalue . ' was not added.'
                                 );
                             }
@@ -802,19 +823,19 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                 if ($this->hasMetadata($key)) {
                     if (!$this->updateMetadata($key, $value)) {
                         SimpleSAML_Logger::error(
-                            'importMetadata20IdP - Metadata field ' . $key
+                            'importMetadata20IdP - Metadata field ' . $key 
                             . ' with value ' . $value . ' was not added.'
                         );
                     }
                 } else {
                     if (!$this->addMetadata($key, $value)) {
                         SimpleSAML_Logger::error(
-                            'importMetadata20IdP - Metadata field ' . $key
+                            'importMetadata20IdP - Metadata field ' . $key 
                             . ' with value ' . $value . ' was not added.'
                         );
                     }
                 }
-            }
+            }	
         }
 
         return 'status_metadata_parsed_ok';
