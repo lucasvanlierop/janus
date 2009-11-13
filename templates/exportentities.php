@@ -11,26 +11,19 @@
 $this->data['jquery'] = array('version' => '1.6', 'core' => TRUE, 'ui' => TRUE, 'css' => TRUE);
 $this->data['head']  = '<link rel="stylesheet" type="text/css" href="/' . $this->data['baseurlpath'] . 'module.php/metaedit/resources/style.css" />' . "\n";
 $this->includeAtTemplateBase('includes/header.php');
-$util = new sspmod_janus_AdminUtil();
 ?>
 
 <div id="tabdiv">
 <a href="<?php echo SimpleSAML_Module::getModuleURL('janus/index.php'); ?>"><?php echo $this->t('text_dashboard'); ?></a>
 <h2><?php echo $this->t('tab_entities_federation_entity_subheader'); ?></h2>
 
-<?php
-if($this->data['uiguard']->hasPermission('exportallentities', null, $this->data['user']->getType(), TRUE)) {
-    echo '<p>'.$this->t('text_export_federation_desc').'</p>';
-?>
+<?php echo '<p>'.$this->t('text_export_federation_desc').'</p>';?>
 <ul>
     <li>
         <a href="?id=federation&entity_type_filter=idp-sp-all"><?php echo $this->t('text_idp&sp-all'); ?></a>&nbsp;
         <a href="?id=federation&entity_type_filter=idp-sp-all&mimetype=application/xml">[xml]</a>&nbsp;
         <a href="?id=federation&entity_type_filter=idp-sp-all&mimetype=text/plain">[text]</a>&nbsp;
     </li>
-    <?php
-    if ($this->data['entity_types']['saml20-idp']['enable'] === true && $this->data['entity_types']['shib13-idp']['enable'] === true) {
-    ?>
     <li>
         <a href="?id=federation&entity_type_filter=idp-all"><?php echo $this->t('text_idp-all'); ?></a>&nbsp;
         <a href="?id=federation&entity_type_filter=idp-all&mimetype=application/xml">[xml]</a>&nbsp;
@@ -41,10 +34,6 @@ if($this->data['uiguard']->hasPermission('exportallentities', null, $this->data[
         }
         ?>
     </li>
-    <?php
-    }
-    if ($this->data['entity_types']['saml20-sp']['enable'] === true && $this->data['entity_types']['shib13-sp']['enable'] === true) {
-    ?>
     <li>
         <a href="?id=federation&entity_type_filter=sp-all"><?php echo $this->t('text_sp-all'); ?></a>&nbsp;
         <a href="?id=federation&entity_type_filter=sp-all&mimetype=application/xml">[xml]</a>&nbsp;
@@ -55,10 +44,6 @@ if($this->data['uiguard']->hasPermission('exportallentities', null, $this->data[
         }
         ?>
     </li>
-    <?php
-    }
-    if($this->data['entity_types']['saml20-sp']['enable'] === true || $this->data['entity_types']['saml20-idp']['enable'] === true) {
-    ?>
     <li>
         <a href="?id=federation&entity_type_filter=saml20-all"><?php echo $this->t('text_saml20-all'); ?></a>&nbsp;
         <a href="?id=federation&entity_type_filter=saml20-all&mimetype=application/xml">[xml]</a>&nbsp;
@@ -69,10 +54,6 @@ if($this->data['uiguard']->hasPermission('exportallentities', null, $this->data[
         }
         ?>
     </li>
-    <?php
-    }
-    if($this->data['entity_types']['shib13-sp']['enable'] === true || $this->data['entity_types']['shib13-idp']['enable'] === true) {
-    ?>
     <li>
         <a href="?id=federation&entity_type_filter=shib13-all"><?php echo $this->t('text_shib13-all'); ?></a>&nbsp;
         <a href="?id=federation&entity_type_filter=shib13-all&mimetype=application/xml">[xml]</a>&nbsp;
@@ -83,33 +64,10 @@ if($this->data['uiguard']->hasPermission('exportallentities', null, $this->data[
         }
         ?>
     </li>
-    <?php
-    }
-    foreach ($this->data['entity_types'] AS $typeid => $typedata) {
-        if($typedata['enable'] === true) {
-            echo '<li>';
-            echo '<a href="?id=federation&entity_type_filter='.$typeid.'">'.$this->t('text_'.$typeid) .'</a>&nbsp;';
-            echo '<a href="?id=federation&entity_type_filter='.$typeid.'&mimetype=application/xml">[xml]</a>&nbsp;';
-            echo '<a href="?id=federation&entity_type_filter='.$typeid.'&mimetype=text/plain">[text]</<a>&nbsp;';
-            foreach ($this->data['export.states'] AS $state) {
-                echo '<a href="?id=federation&entity_type_filter='.$typeid.'&mimetype=application/xml&state=' . $state . '">[xml/' . $state . ']</a>&nbsp;';
-            }
-            echo '</li>';
-        }
-    }
-    ?>
 </ul>
-        <a href="?id=federation&entity_type_filter=saml20-all&mimetype=application/xml&state=prodaccepted">[TEST]</a>&nbsp;
-<?php
-} else {
-    echo $this->t('error_no_access');
-}
-?>
+<a href="?id=federation&entity_type_filter=saml20-all&mimetype=application/xml&state=prodaccepted">[TEST]</a>&nbsp;
 
 <!-- END CONTENT -->
 </div>
 
-<?php
-
-$this->includeAtTemplateBase('includes/footer.php');
-?>
+<?php $this->includeAtTemplateBase('includes/footer.php');?>

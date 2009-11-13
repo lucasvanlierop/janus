@@ -853,12 +853,6 @@ $config = array(
             ),
         ),
 
-        // Export all entities. (all Federation metadata)
-        'exportallentities' => array(
-            'role' => array (
-                'admin',
-            ),
-        ),
     ),
 
 
