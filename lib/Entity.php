@@ -363,6 +363,15 @@ class sspmod_janus_Entity extends sspmod_janus_Database
     }
 
     /**
+     * Get entity metadata url.
+     * Assume url = entity_id
+     */
+    public function geMetadataURL()
+    {
+        return $_entityid;
+    }
+
+    /**
      * Set revision id.
      *
      * Method for setting the revision id. The revision id is automaticlly
