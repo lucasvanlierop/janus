@@ -368,7 +368,7 @@ class sspmod_janus_Entity extends sspmod_janus_Database
      */
     public function geMetadataURL()
     {
-        return $_entityid;
+        return $this->_entityid;
     }
 
     /**
