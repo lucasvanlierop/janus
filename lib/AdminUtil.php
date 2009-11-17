@@ -335,6 +335,20 @@ class sspmod_janus_AdminUtil extends sspmod_janus_Database
 
     public function deleteEntity($eid) {
         $st = $this->execute(
+            'SELECT `entityid`
+            FROM '. self::$prefix .'entity
+            WHERE `eid` = ?;',
+            array($eid)
+        );
+
+        if ($st === false) {
+            SimpleSAML_Logger::error('JANUS: Error fetching entity of eid ' . $eid);
+            return false;
+        }
+
+        $entityid = $st->fetch(PDO::FETCH_ASSOC);
+
+        $st = $this->execute(
             'DELETE FROM '. self::$prefix .'entity
             WHERE `eid` = ?;',
             array($eid)
@@ -372,8 +386,8 @@ class sspmod_janus_AdminUtil extends sspmod_janus_Database
 
         $st = $this->execute(
             'DELETE FROM '. self::$prefix .'attribute
-            WHERE `eid` = ?;',
-            array($eid)
+            WHERE `entityid` = ?;',
+            array($entityid)
         );
 
         if ($st === false) {
@@ -384,8 +398,8 @@ class sspmod_janus_AdminUtil extends sspmod_janus_Database
 
         $st = $this->execute(
             'DELETE FROM '. self::$prefix .'blockedEntity
-            WHERE `eid` = ?;',
-            array($eid)
+            WHERE `entityid` = ?;',
+            array($entityid)
         );
 
         if ($st === false) {
