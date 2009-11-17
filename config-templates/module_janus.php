@@ -280,9 +280,10 @@ $config = array(
             'description' => 'Description',
         ),
         'contacts:contactType' => array(
-            'type' => 'text',
+            'type' => 'select',
             'order' => 120,
-            'default' => 'defaultvalue',
+            'default' => 'technical',
+            'select_values' => array("technical", "support", "administrative", "billing", "other"),
             'description' => 'Description',
         ),
         'contacts:name' => array(
@@ -397,9 +398,10 @@ $config = array(
             'description' => 'Description',
         ),
         'contacts:contactType' => array(
-            'type' => 'text',
+            'type' => 'select',
             'order' => 120,
-            'default' => 'defaultvalue',
+            'default' => 'technical',
+            'select_values' => array("technical", "support", "administrative", "billing", "other"),
             'description' => 'Description',
         ),
         'contacts:name' => array(
@@ -513,9 +515,10 @@ $config = array(
             'description' => 'Description',
         ),
         'contacts:contactType' => array(
-            'type' => 'text',
+            'type' => 'select',
             'order' => 120,
-            'default' => 'defaultvalue',
+            'default' => 'technical',
+            'select_values' => array("technical", "support", "administrative", "billing", "other"),
             'description' => 'Description',
         ),
         'contacts:name' => array(
@@ -623,9 +626,10 @@ $config = array(
             'description' => 'Description',
         ),
         'contacts:contactType' => array(
-            'type' => 'text',
-            'order' => 110,
-            'default' => 'defaultvalue',
+            'type' => 'select',
+            'order' => 120,
+            'default' => 'technical',
+            'select_values' => array("technical", "support", "administrative", "billing", "other"),
             'description' => 'Description',
         ),
         'contacts:name' => array(
