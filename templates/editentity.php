@@ -308,11 +308,11 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
 
         foreach($this->data['remote_entities'] AS $remote_entityid => $remote_data) {
             if(array_key_exists($remote_entityid, $this->data['blocked_entities'])) {
-                echo '<input class="remote_check" type="checkbox" name="add[]" value="'. $remote_entityid. '" checked />&nbsp;&nbsp;'. $remote_data['name'][$this->getLanguage()] .'<br />';
+                echo '<input class="remote_check" type="checkbox" name="add[]" value="'. $remote_entityid. '" checked />&nbsp;&nbsp;'. $remote_data['name'] .'<br />';
             } else {
-                echo '<input class="remote_check" type="checkbox" name="add[]" value="'. $remote_entityid. '" />&nbsp;&nbsp;'. $remote_data['name'][$this->getLanguage()] .'<br />';
+                echo '<input class="remote_check" type="checkbox" name="add[]" value="'. $remote_entityid. '" />&nbsp;&nbsp;'. $remote_data['name'] .'<br />';
             }
-            echo '&nbsp;&nbsp;&nbsp;'. $remote_data['description'][$this->getLanguage()] .'<br />';
+            echo '&nbsp;&nbsp;&nbsp;'. $remote_data['description'] .'<br />';
         }
     } else {
         // Access not granted to block remote entities
@@ -324,11 +324,11 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
         foreach($this->data['remote_entities'] AS $remote_entityid => $remote_data) {
             if(array_key_exists($remote_entityid, $this->data['blocked_entities'])) {
                 echo '<input class="remote_check" type="hidden" name="add[]" value="'. $remote_entityid. '" />';
-                echo '<input class="remote_check" type="checkbox" name="add_dummy[]" value="'. $remote_entityid. '" checked disabled="disabled" />&nbsp;&nbsp;'. $remote_data['name'][$this->getLanguage()] .'<br />';
+                echo '<input class="remote_check" type="checkbox" name="add_dummy[]" value="'. $remote_entityid. '" checked disabled="disabled" />&nbsp;&nbsp;'. $remote_data['name'] .'<br />';
             } else {
-                echo '<input class="remote_check" type="checkbox" name="add_dummy[]" value="'. $remote_entityid. '" disabled />&nbsp;&nbsp;'. $remote_data['name'][$this->getLanguage()] .'<br />';
+                echo '<input class="remote_check" type="checkbox" name="add_dummy[]" value="'. $remote_entityid. '" disabled />&nbsp;&nbsp;'. $remote_data['name'] .'<br />';
             }
-            echo '&nbsp;&nbsp;&nbsp;'. $remote_data['description'][$this->getLanguage()] .'<br />';
+            echo '&nbsp;&nbsp;&nbsp;'. $remote_data['description'] .'<br />';
         }
     }
     ?>
@@ -641,7 +641,8 @@ function addAttributeInput() {
 <div id="export">
 <?php
 if($this->data['uiguard']->hasPermission('exportmetadata', $wfstate, $this->data['user']->getType())) {
-    echo '<a href="'. SimpleSAML_Module::getModuleURL('janus/'. $this->data['entity']->getType() .'-metadata.php') .'?eid='. $this->data['entity']->getEid()  .'&revisionid='. $this->data['entity']->getRevisionid() .'&output=xhtml">'. $this->t('tab_edit_entity_export_metadata') .'</a><br /><br />';
+    //echo '<a href="'. SimpleSAML_Module::getModuleURL('janus/'. $this->data['entity']->getType() .'-metadata.php') .'?eid='. $this->data['entity']->getEid()  .'&revisionid='. $this->data['entity']->getRevisionid() .'&output=xhtml">'. $this->t('tab_edit_entity_export_metadata') .'</a><br /><br />';
+    echo '<a href="'. SimpleSAML_Module::getModuleURL('janus/exportentity.php') .'?eid='. $this->data['entity']->getEid()  .'&revisionid='. $this->data['entity']->getRevisionid() .'&output=xhtml">'. $this->t('tab_edit_entity_export_metadata') .'</a><br /><br />';
 } else {
     echo $this->t('error_no_access');
 }
