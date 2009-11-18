@@ -4,6 +4,9 @@ $this->data['jquery'] = array('version' => '1.6', 'core' => TRUE, 'ui' => TRUE, 
 $this->includeAtTemplateBase('includes/header.php');
 $this->data['extended'] = true;
 
+ echo '<div id="tabdiv">';
+ echo '<a href="'.SimpleSAML_Module::getModuleURL('janus/index.php').'">'.$this->t('text_dashboard').'</a>';
+
 function listMetadata($t, $entries, $extended = FALSE) {
     echo '<table width="100%">';
     echo '<thead><tr>';
@@ -18,7 +21,7 @@ function listMetadata($t, $entries, $extended = FALSE) {
         echo '<tr>';
 
         // Metadata column
-        echo '<td width="130px" align="center">';
+        echo '<td width="150px" align="center">';
         if ($entry['invalid_metadata']) {
             echo('<img src="images/icons/reject.png" title="' .
                  $t->t('missing_require_metadata') . implode(" ", $entry['invalid_metadata']) .
@@ -32,11 +35,11 @@ function listMetadata($t, $entries, $extended = FALSE) {
 
         // Certificate column
         if (SimpleSAML_Module::isModuleEnabled('x509')) {
-            echo '<td width="130px" align="center">';
+            echo '<td width="150px" align="center">';
             if ($entry['invalid_certificate']) {
                 $title = $t->t('{x509:certvalidator:' . $entry['invalid_certificate'] . '}');
-                // error 18 is due to self signed certificates, so we display a warning instead
-                if ($entry['invalid_certificate'] == 'error_found_18') {
+                // if n strict certificate validation and validation error response in allowed_warnings we display a warning instead of reject
+                if ($entry['status'] == 'poor' || $entry['status'] == 'unknown') {
                     echo('<img src="images/icons/warning.png" title="' .
                          $title. '" alt="' .
                          $t->t('validation_warning') . '" />');
@@ -106,6 +109,9 @@ if(!empty($this->data['metaentries']['shib13-sp'])) {
     echo '<h2>' . $this->t('text_shib13-sp') . '</h2>';
     listMetadata($this, $this->data['metaentries']['shib13-sp'], $this->data['extended']);
 }
+
+
+echo '</div>';
 
 $this->includeAtTemplateBase('includes/footer.php');
 

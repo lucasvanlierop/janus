@@ -472,11 +472,17 @@ $lang = array(
         'es' => 'Federación de metadatos',
     ),
 
-    'tab_entities_federation_entity_description' => array(
+    'tab_entities_federation_exporting' => array(
         'da' => 'Klik her for at eksportere føderationsmetadata',
         'en' => 'Click here to export the metadata set of entities of the federation',
         'es' => 'Haz click aqui para exportar el conjunto de metadatos de las entidades de la federación',
     ),
+    
+    'tab_entities_federation_status' => array(
+        'da' => 'Klik her for at validere de enheder af forbundets',
+        'en' => 'Click here to validate the entities of the federation',
+        'es' => 'Haz click aqui para validar las entidades de la federación',
+    ), 
 
     // Admin tab
     'admin_permission' => array(
@@ -728,32 +734,44 @@ $lang = array(
     ),
 
     //Metalisting
+    'federation_entities_header' => array(
+        'da' => 'Federation enheder',
+        'en' => 'Federation entities',
+        'es' => 'Entidades de la federación',
+     ),
+    
     'validation_metadata_column' => array(
+        'da' => 'Metadata gyldigt',
         'en' => 'Valid Metadata',
         'es' => 'Metadatos válidos',
      ),
 
     'validation_certificate_column' => array(
+        'da' => 'Gyldigt certifikat',
         'en' => 'Valid Certificate',
         'es' => 'Certificado válido',
      ),
 
     'validation_identity_column' => array(
+        'da' => 'Enheds-ID eller navn',
         'en' => 'Entity ID or Name',
         'es' => 'ID de Entidad o Nombre',
      ),
 
     'validation_problem' => array(
+        'da' => 'Validering Problem',
         'en' => 'Validation problem',
         'es' => 'Problema de validación',
     ),
 
     'validation_warning' => array(
+        'da' => 'Mulige validering spørgsmål',
         'en' => 'Validation warning',
         'es' => 'Posible problema de validación',
     ),
 
     'validation_success' => array(
+        'da' => 'Korrekt validering',
         'en' => 'Validation success',
         'es' => 'Validación correcta',
     ),

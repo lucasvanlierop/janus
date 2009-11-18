@@ -10,6 +10,12 @@ $metaentries = array(
 
 $now = time();
 $util = new sspmod_janus_AdminUtil();
+
+if (SimpleSAML_Module::isModuleEnabled('x509')) {
+    $strict_cert_validation = $janus_config->getBoolean('cert.strict.validation',true);
+    $cert_allowed_warnings = $janus_config->getArray('cert.allowed.warnings',array());
+}
+
 foreach ($util->getEntities() as $entity) {
 
     $entry = array();
@@ -23,8 +29,8 @@ foreach ($util->getEntities() as $entity) {
 
     // Grab some basic fields
     $metadata = $mcontroller->getMetadata();
-    $entity_type = $mcontroller->getEntity()->getType();
     $entity_id = $mcontroller->getEntity()->getEntityid();
+    $entity_type = $mcontroller->getEntity()->getType();
 
     $metadata_keys = array();
     foreach($metadata AS $k => $v) {
@@ -33,6 +39,7 @@ foreach ($util->getEntities() as $entity) {
 
     $metaArray = $mcontroller->getMetaArray();
     $entry['entityid'] = $entity_id;
+    $entry['entitytype'] = $entity_type;
 
     // Check if the entity has all the required fields
     $requiredmeta = $janus_config->getArray('required.metadatafields.' . $entity_type,
@@ -48,16 +55,19 @@ foreach ($util->getEntities() as $entity) {
     $entry['invalid_certificate'] = false;
     if(!isset($metaArray['certData'])) {
         $entry['invalid_certificate'] = 'cert_not_found';
+        $entry['status'] = 'bad';
     } else if (SimpleSAML_Module::isModuleEnabled('x509')) {
         $pem = trim($metaArray['certData']);
         $pem = chunk_split($pem, 64, "\r\n");
         $pem = substr($pem, 0, -1); // remove the last \n character
-        $result = sspmod_x509_CertValidator::validateCert($pem);
+        $result = sspmod_x509_CertValidator::validateCert($pem, true);
         if ($result != 'cert_validation_success') {
             $entry['invalid_certificate'] = $result;
+            $entry['status'] = ((!$strict_cert_validation && in_array($result, $cert_allowed_warnings)) ? 'poor' : 'bad'); 
         }
     } else {
         $entry['invalid_certificate'] = 'x509_module_not_enabled';
+        $entry['status'] = 'unknown'; 
     }
 
     // Check if this entry is rotten
@@ -109,11 +119,32 @@ foreach ($util->getEntities() as $entity) {
         array_push($metaentries[$entity_type], $entry);
     }
 }
-
-$config = SimpleSAML_Configuration::getInstance();
-$t = new SimpleSAML_XHTML_Template($config, 'janus:metalisting.php', 'janus:janus.php');
-$t->data['header'] = 'Federation entities';
-$t->data['metaentries'] = $metaentries;
-$t->show();
+if (!isset($_GET['output']) || $_GET['output'] !== 'json') {
+    $config = SimpleSAML_Configuration::getInstance();
+    $t = new SimpleSAML_XHTML_Template($config, 'janus:metalisting.php', 'janus:janus.php');
+    $t->data['header'] = $t->t('federation_entities_header');
+    $t->data['metaentries'] = $metaentries;
+    $t->show();
+}
+else {
+    $json = array(); 
+    $type = $_GET['type'];
+    header('Content-type: application/json');
+    header ("Content-Disposition: attachment; filename=federation_metadata.json"); 
+    foreach($metaentries as $entry) { 
+        for ($i=0; $i<count($entry); $i++) { 
+            if (!isset($type) || (isset($type) && $entry[$i]['entitytype'] === $type)) { 
+                $json[] = array( 
+                    'name'       => $entry[$i]['name'], 
+                    'url'        => $entry[$i]['url'], 
+                    'status'     => $entry[$i]['status'], 
+                    'entityid'   => $entry[$i]['entityid'], 
+                    'entitytype' => $entry[$i]['entitytype'], 
+                ); 
+            } 
+        } 
+    } 
+    echo json_encode($json); 
+}
 
 ?>

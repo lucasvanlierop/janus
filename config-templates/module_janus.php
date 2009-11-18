@@ -16,6 +16,14 @@ $config = array(
     'auth' => 'mailtoken',
     'useridattr' => 'mail',
 
+    // Metalisting certificate validation mode.
+    'cert.strict.validation' => true,
+    // If validation mode is false, these errors will be  warnings.
+    'cert.allowed.warnings' => array(
+        'error_found_3',  // Self signed certificate
+        'error_found_18', // CA without CRL 
+    ),
+
     // Cron tags says when Janus hook is executed
     'cron' => array('daily'),
 
