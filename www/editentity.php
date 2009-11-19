@@ -55,7 +55,7 @@ if($revisionid > -1) {
     }
 } else {
     // Revision not set, get latest
-    if(!$entity = &$mcontroller->setEntity($eid)) {
+    if(!$entity = $mcontroller->setEntity($eid)) {
         die('Error in setEntity');
     }
 }

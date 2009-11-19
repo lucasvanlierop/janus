@@ -27,8 +27,7 @@ function listMetadata($t, $entries, $extended = FALSE) {
                  $t->t('missing_require_metadata') . implode(" ", $entry['invalid_metadata']) .
                  '" alt="' . $t->t('validation_problem') . '" />');
         } else {
-            $alt = $t->t('valid');
-            echo('<img src="images/icons/accept.png" title="" alt="' .
+            echo('<img src="images/icons/accept.png" title="ok" alt="' .
                  $t->t('validation_success') . '" />');
         }
         echo '</td>';
@@ -37,7 +36,7 @@ function listMetadata($t, $entries, $extended = FALSE) {
         if (SimpleSAML_Module::isModuleEnabled('x509')) {
             echo '<td width="150px" align="center">';
             if ($entry['invalid_certificate']) {
-                $title = $t->t('{x509:certvalidator:' . $entry['invalid_certificate'] . '}');
+                $title = $t->t('{x509:x509:' . $entry['invalid_certificate'] . '}');
                 // if n strict certificate validation and validation error response in allowed_warnings we display a warning instead of reject
                 if ($entry['status'] == 'poor' || $entry['status'] == 'unknown') {
                     echo('<img src="images/icons/warning.png" title="' .
@@ -49,7 +48,7 @@ function listMetadata($t, $entries, $extended = FALSE) {
                          $t->t('validation_problem') . '" />');
                 }
             } else {
-                echo('<img src="images/icons/accept.png" alt="' .
+                echo('<img src="images/icons/accept.png" title="ok" alt="' .
                      $t->t('validation_success') . '" />');
             }
             echo '</td>';

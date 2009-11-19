@@ -121,7 +121,7 @@ foreach ($util->getEntities() as $entity) {
 }
 if (!isset($_GET['output']) || $_GET['output'] !== 'json') {
     $config = SimpleSAML_Configuration::getInstance();
-    $t = new SimpleSAML_XHTML_Template($config, 'janus:metalisting.php', 'janus:janus.php');
+    $t = new SimpleSAML_XHTML_Template($config, 'janus:metalisting.php', 'janus:janus');
     $t->data['header'] = $t->t('federation_entities_header');
     $t->data['metaentries'] = $metaentries;
     $t->show();
