@@ -12,6 +12,7 @@ $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');
 $this->data['jquery'] = array('version' => '1.6', 'core' => TRUE, 'ui' => TRUE, 'css' => TRUE);
 $this->data['head']  = '<link rel="stylesheet" type="text/css" href="/' . $this->data['baseurlpath'] . 'module.php/janus/resources/style.css" />' . "\n";
 $this->data['head'] .= '<script type="text/javascript">
+
 $(document).ready(function() {
     $("#tabdiv").tabs();
     $("#tabdiv").tabs("select", '. $this->data['selectedtab'] .');
@@ -93,7 +94,8 @@ $select_type .= '</select>';
 function saveUser(uid) {
     tr_editUser = $("#delete-user-" + uid);
     type = tr_editUser.children("[name=\'type\']").children("[name=\'type\']").val();
-    userid = tr_editUser.children("[name=\'userid\']").children("[name=\'userid\']").val();
+    userid_input = tr_editUser.children("[name=\'userid\']").children("[name=\'userid\']");
+    userid = userid_input.val();
     active = tr_editUser.children("[name=\'active\']").children("[name=\'active\']")[0].checked;
 
     if(active == true) {
@@ -119,6 +121,11 @@ function saveUser(uid) {
                 tr_editUser.children("[name=\'type\']").html(type);
                 tr_editUser.children("[name=\'userid\']").html(userid);
                 tr_editUser.children("[name=\'active\']").html(active);
+            }
+            else {
+                userid_input = tr_editUser.children("[name=\'userid\']").children("[name=\'userid\']");
+                userid_input.focus();
+                userid_input.css("background-color", "#E94426");
             }
         },
         "json"
