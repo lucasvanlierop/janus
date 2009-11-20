@@ -244,6 +244,25 @@ function deleteSubscription(uid, subscription) {
     );
 }
 
+function renderMessageList(uid, page) {
+    $.post(
+        "AJAXRequestHandler.php",
+        {
+            func: "getMessageList",
+            uid: uid,
+            page: page,
+        },
+        function(data) {
+            if(data.status == "success") {
+                $("#message-list").html(data.data);
+                $(".paginator a").removeClass("selected");
+                $(".paginator a.pagelink"+data.page).addClass("selected");
+            }
+        },
+        "json"
+    );
+}
+
 function openMessage(mid) {
     if($("#message-"+mid).is(":visible")) {
         $("#message-"+mid).hide();
@@ -545,11 +564,26 @@ if($this->data['user_type'] === 'admin') {
 <!-- TABS END - USERDATE -->
 
 <!-- TABS - INBOX -->
+<?php
+function renderPaginator($uid, $currentpage, $lastpage) {
+    foreach(range(1, $lastpage) as $page) {
+        echo '<a class="pagelink'. $page;
+        if($page == $currentpage) {
+            echo ' selected';
+        }
+        echo '" href="#" onclick="renderMessageList('. $uid .','. $page .');">'. $page .'</a>';
+    }
+}
+
+?>
+
 <div id="message">
     <table class="dashboard_container">
         <tr>
             <td width="70%" valign="top">
                 <h2>Inbox</h2>
+                <div class="paginator"><?php renderPaginator($this->data['user']->getUid(), $this->data['current_page'], $this->data['last_page']); ?></div>
+                <div id="message-list">
                 <?php
                 if(empty($this->data['messages'])) {
                     echo "Empty";
@@ -567,6 +601,8 @@ if($this->data['user_type'] === 'admin') {
                     }
                 }
                 ?>
+                </div>
+                <div class="paginator"><?php renderPaginator($this->data['user']->getUid(), $this->data['current_page'], $this->data['last_page']); ?></div>
             </td>
             <td width="30%" valign="top">
                 <h2>Subscriptions</h2>

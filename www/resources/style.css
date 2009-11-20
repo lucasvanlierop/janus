@@ -81,6 +81,22 @@ div.dashboard_inbox_message_desc {
     display: none;
 }
 
+.paginator {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.paginator a {
+    border: 0px;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.paginator a.selected {
+    background-color: gray;
+}
+
+
 // Editentity
 
 div.editentity_error {
