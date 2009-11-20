@@ -126,11 +126,6 @@ function saveUser(uid) {
                 userid_input.focus();
                 userid_input.css("background-color", "#E94426");
             }
-            else {
-                userid_input = tr_editUser.children("[name=\'userid\']").children("[name=\'userid\']");
-                userid_input.focus();
-                userid_input.css("background-color", "#E94426");
-            }
         },
         "json"
     );
