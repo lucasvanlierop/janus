@@ -57,7 +57,7 @@ function listMetadata($t, $entries, $extended = FALSE) {
         // Name column
         echo '<td>';
         if ($entry['flag'] !== null) {
-            echo '<img style="display: inline; margin-right: 5px" src="' . $flag . '" alt="' . $entry['flag_name'] . '" />';
+            echo '<img class="metalisting_flag" src="' . $flag . '" alt="' . $entry['flag_name'] . '" />';
         }
 
         if ($entry['name'] !== null) {
@@ -74,11 +74,11 @@ function listMetadata($t, $entries, $extended = FALSE) {
 
         if ($extended) {
             if ($entry['expired']) {
-                echo(' <span style="color: #500; font-weight: bold"> (expired ' .
+                echo(' <span class="metalisting_expired"> (expired ' .
                      number_format($entry['expiration_time']/3600, 1) .
                      ' hours ago)</span>');
             } else if ($entry['expiration_time'] !== null) {
-                echo(' <span style="color: #ccc; "> (expires in ' .
+                echo(' <span class="metalisting_noexpired"> (expires in ' .
                      number_format($entry['expiration_time']/3600, 1) .
                      ' hours)</span>');
             }
