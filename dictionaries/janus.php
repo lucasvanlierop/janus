@@ -623,6 +623,12 @@ $lang = array(
         'es' => 'usuario no creado. Compruebe que el ID de usuario y el tipo son válidos'
     ),
 
+    'error_user_not_created_due_params' => array(
+        'da' => 'Brugeren blev ikke oprettet. Kontroller, at bruger-id og type er gyldige',
+        'en' => 'The user was not created. Verify that the user ID and type are valid',
+        'es' => 'usuario no creado. Compruebe que el ID de usuario y el tipo son válidos',
+    ),
+
     // Install script
     'install_tables_created' => array(
         'da' => 'Følgende tabeller er blevet oprettet',

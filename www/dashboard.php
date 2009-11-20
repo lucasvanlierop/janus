@@ -55,8 +55,7 @@ $selectedtab = isset($_REQUEST['selectedtab']) ? $_REQUEST['selectedtab'] : 1;
 if(isset($_POST['add_usersubmit'])) {
     if(empty($_POST['userid']) || empty($_POST['type'])) {
         $msg = 'error_user_not_created_due_params';
-    }
-    else {
+    } else {
         $new_user = new sspmod_janus_User($janus_config->getValue('store'));
         $new_user->setUserid($_POST['userid']);
         $new_user->setType($_POST['type']);

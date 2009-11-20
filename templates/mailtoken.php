@@ -11,7 +11,8 @@
     $showform = FALSE;
 ?>
 
-<?php if ($this->data['msg'] !== NULL) { ?>
+<?php 
+if (isset($this->data['msg']) && $this->data['msg'] !== NULL) { ?>
     <div class="mailtoken">
     <?php
         if(substr($this->data['msg'], 0, 5) == 'error') {

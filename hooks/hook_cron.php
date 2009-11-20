@@ -38,7 +38,7 @@
  *
  * @return void
  *
-* @since Function available since Release 1.4.0
+ * @since Function available since Release 1.4.0
  */
 function janus_hook_cron(&$croninfo) {
     assert('is_array($croninfo)');
@@ -72,7 +72,7 @@ function janus_hook_cron(&$croninfo) {
             $mcontroller->loadEntity();
             $entity = $mcontroller->getEntity();
             $entity_id = $entity->getEntityId();
-            $metadata_url = $entity->geMetadataURL();
+            $metadata_url = $entity->getMetadataURL();
 
             if (empty($metadata_url)) {
                 continue;
