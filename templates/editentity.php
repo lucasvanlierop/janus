@@ -377,7 +377,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
                     $('<input class="display_none" type="checkbox" value="false", name="meta_value[' + index + '-FALSE]" ' + checkedfalse + '">').appendTo(makker);
                     break;
                 case 'text':
-                    $('<input type="text" name="meta_value[' + index + ']" width="100%" value="' + metadata[index]["default"] + '" onfocus="this.value=\'\';">').appendTo(makker);
+                    $('<input type="text" name="meta_value[' + index + ']" class="width_100" value="' + metadata[index]["default"] + '" onfocus="this.value=\'\';">').appendTo(makker);
                     break;
                 case 'select':
                     if(metadata[index]["select_values"] !== "undefined" && 
@@ -400,7 +400,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
                         break;
                     }
                 default:
-                    $('<input type="text" name="meta_value[' + index + ']" width="100%" value="' + metadata[index]["default"] + '" onfocus="this.value=\'\';">').appendTo(makker);
+                    $('<input type="text" name="meta_value[' + index + ']" class="width_100" value="' + metadata[index]["default"] + '" onfocus="this.value=\'\';">').appendTo(makker);
             }
 
             $(elm).children().each(function () {
@@ -426,7 +426,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
         $modifymetadata = '';
     }
 
-    echo '<table border="0" width="100%">';
+    echo '<table border="0" class="width_100">';
     echo '<tr>';
     echo '<td width="20%"><h3>'. $this->t('tab_edit_entity_entry') .'</h3></td>';
     echo '<td><h3>'. $this->t('tab_edit_entity_value') .'</h3></td>';
@@ -447,7 +447,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
             }
             switch($this->data['metadata_fields'][$data->getKey()]['type']) {
                 case 'text':
-                    echo '<input width="100%" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . '>';
+                    echo '<input class="width_100" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . '>';
                     unset($this->data['metadata_fields'][$data->getKey()]);
                     break;
                 case 'boolean':
@@ -485,7 +485,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
                         break;
                     }
                 default:
-                    echo '<input width="100%" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . '>';
+                    echo '<input class="width_100" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . '>';
                     unset($this->data['metadata_fields'][$data->getKey()]);
             }
             echo '<input type="checkbox" class="display_none" value="'. $data->getKey() .'" id="delete-matadata-'. $data->getKey() .'" name="delete-metadata[]" >';
@@ -572,7 +572,7 @@ function changeAttributeKey(elm) {
     makker = $(elm).parent().next();
     makker.children().remove();
     var index = $(elm).val();
-    $('<input type="text" name="attr_value[' + $(elm).val() + ']" width="100%" value="' + attributes[index]["default"] + '" onfocus="this.value=\'\';">').appendTo(makker);
+    $('<input type="text" name="attr_value[' + $(elm).val() + ']" class="width_100" value="' + attributes[index]["default"] + '" onfocus="this.value=\'\';">').appendTo(makker);
 
     if($(elm).val() == 'NULL') {
         makker.children().remove();
@@ -602,7 +602,7 @@ function addAttributeInput() {
         $modifyattribute = '';
     }
 
-    echo '<table border="0" width="100%">';
+    echo '<table border="0" class="width_100">';
     echo '<tr>';
     echo '<td width="20%"><h3>'. $this->t('tab_edit_entity_entry') .'</h3></td>';
     echo '<td><h3>'. $this->t('tab_edit_entity_value') .'</h3></td>';
@@ -644,7 +644,7 @@ function addAttributeInput() {
             echo '<tr class="'. ($i % 2 == 0 ? 'even' : 'odd') .'">';
             echo '<td width="1%">'. $data->getkey() . '</td>';
             echo '<td>';
-            echo '<input width="100%" type="text" name="edit-attribute-'. $data->getKey()  .'" value="'. $data->getValue()  .'" '. $modifyattribute .'>';
+            echo '<input class="width_100" type="text" name="edit-attribute-'. $data->getKey()  .'" value="'. $data->getValue()  .'" '. $modifyattribute .'>';
             echo '<input type="checkbox" class="display_none" value="'. $data->getKey() .'" id="delete-attribute-'. $data->getKey() .'" name="delete-attribute[]" >';
             echo '</td>';
             if($deleteattribute) {
@@ -703,7 +703,7 @@ if($this->data['uiguard']->hasPermission('exportmetadata', $wfstate, $this->data
 ?>
 </div>
 <hr>
-<?php echo $this->t('tab_edit_entity_revision_note'); ?>: <input type="text" name="revisionnote" width="700px" />
+<?php echo $this->t('tab_edit_entity_revision_note'); ?>: <input type="text" name="revisionnote" class="revision_note" />
 <input type="submit" name="formsubmit" id="master_submit" value="<?php echo $this->t('tab_edit_entity_save'); ?>" class="save_button"/>
 <!-- END CONTENT -->
 </div>

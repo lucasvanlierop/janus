@@ -17,6 +17,10 @@
     display:none;
 }
 
+.width_100 {
+    width:100%;
+}
+
 // Dashboard
 
 div.subscription {
@@ -190,7 +194,13 @@ span.metalisting_noexpired {
     color: #ccc;
 }
 
+input.revision_note {
+    width: 750px;
+}
+
 input.save_button {
+    margin-top:10px;
+    margin-bottom:5px;
     float: right;
 }
 
