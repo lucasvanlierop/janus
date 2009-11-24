@@ -473,15 +473,27 @@ $lang = array(
 
     // Export
     'export_text' => array(
-        'da' => 'Her under kan du se dit metadata',
-        'en' => 'Here you can see your metadata',
-        'es' => 'Aquí puedes ver tus metadatos',
+        'da' => 'Metadata vises i XML-format (SAML) eller egen ordbog format simpleSAMLphp. Har du også funktionalitet til på Sende metadata til administratoren af Janus.',
+        'en' => 'Metadata is displayed in XML format (SAML) or own dictionary format simpleSAMLphp. Also you have the functionality to send the metadata to the administrator of Janus.',
+        'es' => 'Se visualizan los metadatos en formato xml (saml) o en formato de diccionario propio de simplesamlphp. Además dispones de la funcionalidad de poder envierle los metadatos al administrador de Janus.',
     ),
 
     'export_intro' => array(
         'da' => 'Her under kan du se dit metadata',
         'en' => 'Here you can see your metadata',
         'es' => 'Aquí puedes ver tus metadatos',
+    ),
+    
+    'mail_send' => array(
+        'da' => 'Email sendt',
+        'en' => 'Email sent',
+        'es' => 'Email enviado',
+    ),
+    
+    'error_mail_not_send' => array(
+        'da' => 'Email ikke Sendte',
+        'en' => 'Email Not Sent',
+        'es' => 'Email no enviado',
     ),
 
     'tab_entities_federation_entity_subheader' => array(
