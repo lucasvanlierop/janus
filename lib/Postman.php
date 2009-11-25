@@ -266,7 +266,7 @@ class sspmod_janus_Postman extends sspmod_janus_Database
 
     public function getMessages($uid, &$page=0)
     {
-        $sql = 'SELECT * FROM `'. self::$prefix .'message` WHERE `uid` = ? ORDER BY `created` DESC LIMIT 2';
+        $sql = 'SELECT * FROM `'. self::$prefix .'message` WHERE `uid` = ? ORDER BY `created` DESC LIMIT ' . $this->paginate_by;
         if($page == 0) {
             $st = self::execute(
                 $sql . ';',

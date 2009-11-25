@@ -57,6 +57,18 @@ $lang = array(
         'es' => 'Por favor seleccione el tipo MIME',
     ),
 
+    'text_external' => array(
+        'da' => 'Ekstern',
+        'en' => 'External',
+        'es' => 'Externo',
+    ),
+
+    'text_select_external' => array(
+        'da' => 'Vælg venligst ekstern destination',
+        'en' => 'Please select extern destination',
+        'es' => 'Por favor seleccione el destino extern',
+    ),
+
     'text_select_state' => array(
         'da' => 'Vælg tilstand',
         'en' => 'Please select state',
@@ -788,7 +800,13 @@ $lang = array(
         'en' => 'Federation entities',
         'es' => 'Entidades de la federación',
      ),
-    
+
+    'externalexportok' => array(
+        'da' => 'Metadata eksporteret til ekstern destination',
+        'en' => 'Metadata exported to external destination',
+        'es' => 'Metadatos exportados a destino externo',
+    ),
+
     'validation_metadata_column' => array(
         'da' => 'Metadata gyldigt',
         'en' => 'Valid Metadata',

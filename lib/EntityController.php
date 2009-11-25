@@ -1195,6 +1195,11 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                 return false;
             }
         }
+        if (empty($this->_attributes)) {
+            if (!$this->_loadAttributes()) {
+                return false;
+            }
+        }
 
         $metaArray = array();
         $metaArray['contacts'] = array();
@@ -1254,6 +1259,10 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
             foreach($this->_attributes AS $attr) {
                 $metaArray['attributes'][] = $attr->getKey();
             }
+        }
+
+        if(!isset($metaArray['name'])) {
+            $metaArray['name']['en'] = $this->_entity->getEntityid();
         }
 
         return $metaArray;
