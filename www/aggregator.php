@@ -22,6 +22,11 @@ if(isset($_GET['type'])) {
     }
 }
 
+$exclude_entityid = null;
+if(isset($_GET['exclude_entityid'])) {
+    $exclude_entityid = $_GET['exclude_entityid']; 
+}
+
 // Create a AdminUtil object
 $util = new sspmod_janus_AdminUtil();
 
@@ -36,6 +41,11 @@ try {
     $xml->appendChild($entitiesDescriptor);
 
     foreach ($entities as $entity) {
+
+        if($entity['entityid'] == $exclude_entityid) {
+            continue;
+        }
+        
         $entityDescriptor = sspmod_janus_MetaExport::getXMLMetadata(
             $entity['eid'], 
             $entity['revisionid'], 
