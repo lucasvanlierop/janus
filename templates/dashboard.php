@@ -111,7 +111,7 @@ function saveUser(uid) {
             uid: uid,
             type: type,
             userid: userid,
-            active: active,
+            active: active
         },
         function(data){
             if(data.status == "success") {
@@ -245,7 +245,7 @@ function renderMessageList(uid, page) {
         {
             func: "getMessageList",
             uid: uid,
-            page: page,
+            page: page
         },
         function(data) {
             if(data.status == "success") {
@@ -266,7 +266,7 @@ function openMessage(mid) {
             "AJAXRequestHandler.php",
             {
                 func: "getMessage",
-                mid: mid,
+                mid: mid
             },
             function(data) {
                 if(data.status == "success") {
@@ -286,7 +286,7 @@ function markRead(mid) {
         "AJAXRequestHandler.php",
         {
             func: "markAsRead",
-            mid: mid,
+            mid: mid
         },
         function(data) {
             if(data.status == "success") {
@@ -303,7 +303,7 @@ function deleteEntity(eid, entityid) {
             "AJAXRequestHandler.php",
             {
                 func: "deleteEntity",
-                eid: eid,
+                eid: eid
             },
             function(data) {
                 if(data.status == "success") {
