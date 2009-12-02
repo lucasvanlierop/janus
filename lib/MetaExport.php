@@ -16,10 +16,16 @@ class sspmod_janus_MetaExport
     const XMLREADABLE = '__XML_READABLE_METADATA__';
 
     private static $_error;
+    private static $_extra_data_error;
 
     public static function getError()
     {
         return self::$_error;
+    }
+    
+    public static function getExtraDataError()
+    {
+        return self::$_extra_data_error;
     }
 
     public static function getFlatMetadata($eid, $revision, array $option = null)
@@ -44,10 +50,17 @@ class sspmod_janus_MetaExport
 
         $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');
         $econtroller = new sspmod_janus_EntityController($janus_config);
+        
+        if (SimpleSAML_Module::isModuleEnabled('x509')) {
+            $strict_cert_validation = $janus_config->getBoolean('cert.strict.validation',true);
+            $cert_allowed_warnings = $janus_config->getArray('cert.allowed.warnings',array());
+        }
 
         if(!$entity = $econtroller->setEntity($eid, $revision)) {
             return false;
         }
+
+        $entityid = $entity->getEntityid();
 
         $metadata_raw = $econtroller->getMetadata();
 
@@ -68,10 +81,29 @@ class sspmod_janus_MetaExport
         
         if (empty($missing_required)) {
             try {
-                $entityid = $entity->getEntityid();
-
                 $metaArray = $econtroller->getMetaArray();
 
+                if (isset($metaArray['expire']) && $metaArray['expire'] < time()) {
+                    SimpleSAML_Logger::info('JANUS - Metadata of the entity '.$entityid.' expired ');
+                    self::$_error = 'metadata_expired';
+                    return false;
+                }
+                
+                if (SimpleSAML_Module::isModuleEnabled('x509') && isset($metaArray['certData'])) {
+                    $pem = trim($metaArray['certData']);
+                    $pem = chunk_split($pem, 64, "\r\n");
+                    $pem = substr($pem, 0, -1); // remove the last \n character
+                    $result = sspmod_x509_CertValidator::validateCert($pem, true);
+                    if ($result != 'cert_validation_success') {
+                        if($strict_cert_validation || !in_array($result, $cert_allowed_warnings)) {
+                            SimpleSAML_Logger::info('JANUS - Invalid certificate of the entity '.$entityid);
+                            self::$_error = 'invalid_certificate';
+                            self::$_extra_data_error = $result;
+                            return false;
+                        }
+                    }
+                }
+                
                 $blocked_entities = $econtroller->getBlockedEntities();
                 $disable_consent = $econtroller->getDisableConsent();
 
@@ -134,11 +166,13 @@ class sspmod_janus_MetaExport
                         return $metaflat;
                 }
             } catch(Exception $exception) {
+                $session = SimpleSAML_Session::getInstance();
                 SimpleSAML_Utilities::fatalError($session->getTrackID(), 'JANUS - Metadatageneration', $exception);
             }
         }  else {
-            SimpleSAML_Logger::error('JANUS - Missing required metadata fields');
-            self::$_error = $missing_required;
+            SimpleSAML_Logger::info('JANUS - Missing required metadata fields in '.$entityid);
+            self::$_error = 'missing_required';
+            self::$_extra_data_error = $missing_required;
             return false;
         }
     }

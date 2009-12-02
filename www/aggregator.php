@@ -45,7 +45,7 @@ try {
         if($entity['entityid'] == $exclude_entityid) {
             continue;
         }
-        
+
         $entityDescriptor = sspmod_janus_MetaExport::getXMLMetadata(
             $entity['eid'], 
             $entity['revisionid'], 
@@ -55,7 +55,7 @@ try {
             )
         );
 
-        if(empty($entityDescriptor)) {
+        if(empty($entityDescriptor) || !$entityDescriptor) {
             continue;
         }
 
@@ -63,6 +63,7 @@ try {
     }
 
     /* Sign the metadata if enabled. */
+
     if ($janus_config->getBoolean('sign.enable', FALSE)) {
         $signer = new SimpleSAML_XML_Signer(
             array(
@@ -78,7 +79,9 @@ try {
     header('Content-Type: application/xml');
     header('Content-Disposition: attachment; filename="federation.xml"');
     echo($xml->saveXML());
+
 } catch(Exception $exception) {
+    $session = SimpleSAML_Session::getInstance();
     SimpleSAML_Utilities::fatalError($session->getTrackID(), 'METADATA', $exception);
 }
 ?>

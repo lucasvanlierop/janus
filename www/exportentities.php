@@ -97,9 +97,24 @@ try {
 
         if(empty($entityDescriptor)) {
             $t = new SimpleSAML_XHTML_Template($config, 'janus:error.php', 'janus:janus');
-            $t->data['header'] = 'Required metadatafields are missing';
-            $t->data['error'] = 'The following metadatafields are required but not present in ' . $entity['entityid'];
-            $t->data['extra_data'] = implode("\n", sspmod_janus_MetaExport::getError());
+            if(sspmod_janus_MetaExport::getError() == 'missing_required') {
+                $t->data['header'] = 'Required metadatafields are missing';
+                $t->data['error'] = 'The following metadatafields are required but not present in ' . $entity['entityid'];
+                $t->data['extra_data'] = implode("\n", sspmod_janus_MetaExport::getExtraDataError());
+            }
+            else if(sspmod_janus_MetaExport::getError() == 'metadata_expired') {
+                $t->data['header'] = 'Metadata expired';
+                $t->data['error'] = 'Have expired the metadata of the entity ' . $entity['entityid'];
+            }
+            else if(sspmod_janus_MetaExport::getError() == 'invalid_certificate') {
+                $t->data['header'] = 'Invalid certificate';
+                $t->data['error'] = 'Invalid certificate of the entity ' . $entity['entityid'];
+                $t->data['extra_data'] = sspmod_janus_MetaExport::getExtraDataError();
+            }
+            else {
+                $t->data['header'] = 'Unknown error';
+                $t->data['error'] = 'Unknown error when exporting the entity ' . $entity['entityid'];
+            }
             $t->show();
             exit(0);
         }
