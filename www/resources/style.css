@@ -17,6 +17,10 @@
     display:none;
 }
 
+.display_inline {
+    display:inline;
+}
+
 .width_100 {
     width:100%;
 }
@@ -183,7 +187,7 @@ img.metalisting_flag {
 }
 
 span.metalisting_expired {
-    color: #500;
+    color: red;
     font-weight: bold;
 }
 

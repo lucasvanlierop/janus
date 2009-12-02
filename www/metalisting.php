@@ -14,7 +14,10 @@ $util = new sspmod_janus_AdminUtil();
 if (SimpleSAML_Module::isModuleEnabled('x509')) {
     $strict_cert_validation = $janus_config->getBoolean('cert.strict.validation',true);
     $cert_allowed_warnings = $janus_config->getArray('cert.allowed.warnings',array());
+    $cert_time_limit = $janus_config->getInteger('notify.cert.expiring.before', 30);
 }
+$notify_meta_expiring_before = $janus_config->getInteger('notify.meta.expiring.before', 5);
+$meta_time_limit = $now + ($notify_meta_expiring_before * 86400);
 
 foreach ($util->getEntities() as $entity) {
 
@@ -42,6 +45,7 @@ foreach ($util->getEntities() as $entity) {
     $entry['entitytype'] = $entity_type;
 
     // Check if the entity has all the required fields
+
     $requiredmeta = $janus_config->getArray('required.metadatafields.' . $entity_type,
                                             array());
     $missing_required = array_diff($requiredmeta, $metadata_keys);
@@ -53,9 +57,10 @@ foreach ($util->getEntities() as $entity) {
 
     // Now validate the certificate
     $entry['invalid_certificate'] = false;
+    $entry['cert_status'] = 'no_data';
     if(!isset($metaArray['certData'])) {
         $entry['invalid_certificate'] = 'cert_not_found';
-        $entry['status'] = 'bad';
+        $entry['cert_validation'] = 'bad';
     } else if (SimpleSAML_Module::isModuleEnabled('x509')) {
         $pem = trim($metaArray['certData']);
         $pem = chunk_split($pem, 64, "\r\n");
@@ -63,25 +68,44 @@ foreach ($util->getEntities() as $entity) {
         $result = sspmod_x509_CertValidator::validateCert($pem, true);
         if ($result != 'cert_validation_success') {
             $entry['invalid_certificate'] = $result;
-            $entry['status'] = ((!$strict_cert_validation && in_array($result, $cert_allowed_warnings)) ? 'poor' : 'bad'); 
+            $entry['cert_validation'] = ((!$strict_cert_validation && in_array($result, $cert_allowed_warnings)) ? 'poor' : 'bad');
+        }
+
+        // Check if this cert entry is rotten
+        $entry['cert_expiration_date'] = sspmod_x509_CertValidator::getDaysUntilExpiration($pem);
+        if ($entry['cert_expiration_date'] < 0) {
+            $entry['cert_status'] = 'no_data';
+        }
+        else if ($entry['cert_expiration_date'] == 0) {
+            $entry['cert_status'] = 'expired';
+        } 
+        else if ($entry['cert_expiration_date'] < $cert_time_limit) {
+            $entry['cert_status'] = 'expires soon';
+        }
+        else {
+            $entry['cert_status'] = 'expires';
         }
     } else {
         $entry['invalid_certificate'] = 'x509_module_not_enabled';
-        $entry['status'] = 'unknown'; 
+        $entry['cert_status'] = 'unknown'; 
     }
 
-    // Check if this entry is rotten
+    // Check if this meta entry is rotten
     if (array_key_exists('expire', $metaArray)) {
         if ($metaArray['expire'] < $now) {
-            $entry['expired'] = true;
-            $entry['expiration_time'] = $now - $metaArray['expire'];
+            $entry['meta_status'] = 'expired';
+            $entry['meta_expiration_time'] = ($now - $metaArray['expire'])/3600;
         } else {
-            $entry['expired'] = false;
-            $entry['expiration_time'] = $metaArray['expire'] - $now;
+            if($metaArray['expire'] < $meta_time_limit ) {
+                $entry['meta_status'] = 'expires soon';
+            }
+            else {
+                $entry['meta_status'] = 'expires';
+            }
+            $entry['meta_expiration_time'] = ($metaArray['expire'] - $now)/3600;
         }
     } else {
-        $entry['expired'] = false;
-        $entry['expiration_time'] = null;
+        $entry['meta_status'] = 'no data';
     }
 
     // Fill in some more data
@@ -119,6 +143,7 @@ foreach ($util->getEntities() as $entity) {
         array_push($metaentries[$entity_type], $entry);
     }
 }
+
 if (!isset($_GET['output']) || $_GET['output'] !== 'json') {
     $config = SimpleSAML_Configuration::getInstance();
     $t = new SimpleSAML_XHTML_Template($config, 'janus:metalisting.php', 'janus:janus');

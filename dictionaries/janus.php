@@ -855,7 +855,44 @@ $lang = array(
         'es' => 'Los siguientes metadatos son requeridos pero no existen en la entidad:',
     ),
     
+    'hour_expires' => array(
+        'da' => 'Udløber i %META_EXPIRES_TIME% timer',
+        'en' => 'Expires in %META_EXPIRES_TIME% hour(s)',
+        'es' => 'Caduca en %META_EXPIRES_TIME% hora(s)',
+    ),
+
+    'hour_expired' => array(
+        'da' => 'Udløbet %META_EXPIRED_TIME% timer siden',
+        'en' => 'Expired %META_EXPIRED_TIME% hour(s) ago',
+        'es' => 'Caducó hace %META_EXPIRED_TIME% hora(s)',
+    ),
+
+    'day_expires' => array(
+        'da' => 'Udløber i %CERT_EXPIRES_TIME% dage',
+        'en' => 'Expires in %CERT_EXPIRES_TIME% day(s)',
+        'es' => 'Caduca en %CERT_EXPIRES_TIME% día(s)',
+    ),
+
+    'expired' => array(
+        'da' => 'Udløbet',
+        'en' => 'Expired',
+        'es' => 'Caducado',
+    ),
+
+    'no_expired' => array(
+        'da' => 'Ikke er udløbet',
+        'en' => 'Not Expired',
+        'es' => 'No Caducado',
+    ),
+
+    'metadata_expired' => array(
+        'da' => 'Metadata er udløbet',
+        'en' => 'Metadata expired',
+        'es' => 'Metadatos Caducados',
+    ),
+
     /*
+    
     '' => array(
         'da' => '',
         'en' => '',

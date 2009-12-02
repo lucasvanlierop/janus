@@ -647,5 +647,23 @@ class sspmod_janus_Entity extends sspmod_janus_Database
     {
         return $this->_revisionnote;
     }
+
+    /**
+     * Get entity metadata expiration date.
+     */
+    public function getExpiration()
+    {
+        return $this->_expiration;
+    }
+
+    /**
+     * set entity metadata expiration date.
+     */
+    public function setExpiration($expiration)
+    {
+        return $this->_expiration = $expiration;
+    }
+    
+    
 }
 ?>
