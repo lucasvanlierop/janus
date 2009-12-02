@@ -419,12 +419,12 @@ $tfooter .= '<tr>';
 foreach($connections AS $ckey => $cval) {
     $theader.= '<td class="connection_header" width="' . (int) 100/$count_types . '%"><b>' . $this->t('text_'.$ckey) . '</b></td>';
 
-    $tfooter .= '<td valign="top" >';
+    $tfooter .= '<td valign="top" class="connection_footer">';
     $tfooter .= '<table class="connection">';
     $i = 0;
     foreach($cval AS $sp) {
-        $tfooter .= '<tr id="'.$sp->getEid().'-list" class="'.($i % 2 == 0 ? 'even' : 'odd').'">';
-        $tfooter .= '<td class="connection_footer">';
+        $tfooter .= '<tr id="'.$sp->getEid().'-list">';
+        $tfooter .= '<td class="'.($i % 2 == 0 ? 'even' : 'odd').'">';
         $tfooter .= '<a href="editentity.php?eid='.$sp->getEid().'">'. $sp->getEntityid() . '</a>';
         $tfooter .= '</td>';
         $tfooter .= '</tr>';
@@ -561,15 +561,19 @@ if($this->data['user_type'] === 'admin') {
 <!-- TABS - INBOX -->
 <?php
 function renderPaginator($uid, $currentpage, $lastpage) {
+    if($lastpage < 1)
+        $lastpage = 1;
     foreach(range(1, $lastpage) as $page) {
         echo '<a class="pagelink'. $page;
         if($page == $currentpage) {
             echo ' selected';
         }
         echo '" onclick="renderMessageList('. $uid .','. $page .');">'. $page .'</a>';
+        if($page%30 == 0) {
+            echo '<br />';
+        }
     }
 }
-
 ?>
 
 <div id="message">
@@ -586,9 +590,9 @@ function renderPaginator($uid, $currentpage, $lastpage) {
                     foreach($this->data['messages'] AS $message) {
                         echo '<div class="dashboard_inbox">';
                         if($message['read'] == 'no') {
-                            echo '<a id="message-title-'. $message['mid'] .'" class="dashboard_inbox_unread_message" onclick="openMessage('. $message['mid'] .')">'. $message['created'].' - '. $message['subject'] .'</a>';
+                            echo '<a id="message-title-'. $message['mid'] .'" class="dashboard_inbox_unread_message" onclick="openMessage('. $message['mid'] .')">'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
                         } else {
-                            echo '<a id="message-title-'. $message['mid'] .'" onclick="openMessage('. $message['mid'] .')">'. $message['created'].' - '. $message['subject'] .'</a>';
+                            echo '<a id="message-title-'. $message['mid'] .'" onclick="openMessage('. $message['mid'] .')">'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
 
                         }
                         echo '</div>';
@@ -599,6 +603,9 @@ function renderPaginator($uid, $currentpage, $lastpage) {
                 </div>
                 <div class="paginator"><?php renderPaginator($this->data['user']->getUid(), $this->data['current_page'], $this->data['last_page']); ?></div>
             </td>
+            <?php
+            if($this->data['uiguard']->hasPermission('showsubscriptions', null, $this->data['user']->getType(), TRUE)) {
+            ?>
             <td width="30%" valign="top">
                 <h2>Subscriptions</h2>
                 <?php
@@ -623,6 +630,9 @@ function renderPaginator($uid, $currentpage, $lastpage) {
                 }
                 ?>
             </td>
+            <?php
+            }
+            ?>
         </tr>
     </table>
 </div>

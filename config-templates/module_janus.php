@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Config file for JANUS
@@ -99,7 +98,7 @@ $config = array(
     'store' => array(
         'dsn'       => 'mysql:host=localhost;dbname=jach_db',
         'username'  => 'jach',
-        'password'  => 'xxx',
+        'password'  => 'xxx', 
         'prefix'    => 'janus__',
     ),
 
@@ -222,116 +221,166 @@ $config = array(
     ),
 
     /*
-     * Allowed metadata names for IdPs. If USERDEFINED is set no restrictions is
-     * put on metadata names.
+     * Allowed metadata names for IdPs.
      */
     'metadatafields.saml20-idp' => array(
         'SingleLogoutService' => array(
             'type' => 'text',
             'order' => 10,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
             'required' => true,
         ),
         'SingleSignOnService' => array(
             'type' => 'text',
             'order' => 20,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
             'required' => true,
         ),
         'certFingerprint' => array(
             'type' => 'text',
             'order' => 30,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'certData' => array(
             'type' => 'text',
             'order' => 40,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
             'required' => true,
         ),
         'entity:name:da' => array(
             'type' => 'text',
             'order' => 50,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'entity:description:da' => array(
             'type' => 'text',
             'order' => 60,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'entity:url:da' => array(
             'type' => 'text',
             'order' => 70,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         // Contact fields
         'contacts:telephoneNumber' => array(
             'type' => 'text',
             'order' => 80,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:company' => array(
             'type' => 'text',
             'order' => 90,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:surName' => array(
             'type' => 'text',
             'order' => 100,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:givenName' => array(
             'type' => 'text',
             'order' => 110,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:contactType' => array(
             'type' => 'select',
             'order' => 120,
             'default' => 'technical',
             'select_values' => array("technical", "support", "administrative", "billing", "other"),
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:name' => array(
             'type' => 'text',
             'order' => 130,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:emailAddress' => array(
             'type' => 'text',
             'order' => 140,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:name:da' => array(
             'type' => 'text',
             'order' => 150,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:description:da' => array(
             'type' => 'text',
             'order' => 160,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:url:da' => array(
             'type' => 'text',
             'order' => 170,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
     ),
 
@@ -342,114 +391,164 @@ $config = array(
     ),
 
     /*
-     * Allowed metadata names for SPs. If USERDEFINED is set no restrictions is
-     * put on metadata names.
+     * Allowed metadata names for SPs.
      */
     'metadatafields.saml20-sp' => array(
         'AssertionConsumerService' => array(
             'type' => 'text',
             'order' => 10,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
             'required' => true,
         ),
         'SingleLogoutService' => array(
             'type' => 'text',
             'order' => 20,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'NameIDFormat' => array(
             'type' => 'text',
             'order' => 30,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'certData' => array(
             'type' => 'text',
             'order' => 40,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'entity:name:da' => array(
             'type' => 'text',
             'order' => 50,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'entity:description:da' => array(
             'type' => 'text',
             'order' => 60,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'entity:url:da' => array(
             'type' => 'text',
             'order' => 70,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         // Contact fields
         'contacts:telephoneNumber' => array(
             'type' => 'text',
             'order' => 80,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:company' => array(
             'type' => 'text',
             'order' => 90,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:surName' => array(
             'type' => 'text',
             'order' => 100,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:givenName' => array(
             'type' => 'text',
             'order' => 110,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:contactType' => array(
             'type' => 'select',
             'order' => 120,
             'default' => 'technical',
             'select_values' => array("technical", "support", "administrative", "billing", "other"),
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:name' => array(
             'type' => 'text',
             'order' => 130,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:emailAddress' => array(
             'type' => 'text',
             'order' => 140,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:name:da' => array(
             'type' => 'text',
             'order' => 150,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:description:da' => array(
             'type' => 'text',
             'order' => 160,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:url:da' => array(
             'type' => 'text',
             'order' => 170,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
     ),
 
@@ -458,115 +557,166 @@ $config = array(
     ),
 
     /*
-     * Allowed metadata names for Shib IdPs. If USERDEFINED is set no restrictions is
-     * put on metadata names.
+     * Allowed metadata names for Shib IdPs.
      */
     'metadatafields.shib13-idp' => array(
-        'SingleSignOnService' => array(
+        'SingleLogoutService' => array(
             'type' => 'text',
             'order' => 10,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
+            'required' => true,
+        ),
+        'SingleSignOnService' => array(
+            'type' => 'text',
+            'order' => 20,
+            'default' => 'defaultvalue',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
             'required' => true,
         ),
         'certFingerprint' => array(
             'type' => 'text',
-            'order' => 20,
-            'default' => 'defaultvalue',
-            'description' => 'Description',
-        ),
-        'NameIDFormat' => array(
-            'type' => 'text',
             'order' => 30,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'certData' => array(
             'type' => 'text',
             'order' => 40,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
             'required' => true,
         ),
         'entity:name:da' => array(
             'type' => 'text',
             'order' => 50,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'entity:description:da' => array(
             'type' => 'text',
             'order' => 60,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'entity:url:da' => array(
             'type' => 'text',
             'order' => 70,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         // Contact fields
         'contacts:telephoneNumber' => array(
             'type' => 'text',
             'order' => 80,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:company' => array(
             'type' => 'text',
             'order' => 90,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:surName' => array(
             'type' => 'text',
             'order' => 100,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:givenName' => array(
             'type' => 'text',
             'order' => 110,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:contactType' => array(
             'type' => 'select',
             'order' => 120,
             'default' => 'technical',
             'select_values' => array("technical", "support", "administrative", "billing", "other"),
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:name' => array(
             'type' => 'text',
             'order' => 130,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:emailAddress' => array(
             'type' => 'text',
             'order' => 140,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:name:da' => array(
             'type' => 'text',
             'order' => 150,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:description:da' => array(
             'type' => 'text',
             'order' => 160,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:url:da' => array(
             'type' => 'text',
             'order' => 170,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
     ),
 
@@ -576,108 +726,164 @@ $config = array(
     ),
 
     /*
-     * Allowed metadata names for SPs. If USERDEFINED is set no restrictions is
-     * put on metadata names.
+     * Allowed metadata names for SPs.
      */
     'metadatafields.shib13-sp' => array(
         'AssertionConsumerService' => array(
             'type' => 'text',
             'order' => 10,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
             'required' => true,
         ),
-        'NameIDFormat' => array(
+        'SingleLogoutService' => array(
             'type' => 'text',
             'order' => 20,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
-        'certData' => array(
+        'NameIDFormat' => array(
             'type' => 'text',
             'order' => 30,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
-        'entity:name:da' => array(
+        'certData' => array(
             'type' => 'text',
             'order' => 40,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
-        'entity:description:da' => array(
+        'entity:name:da' => array(
             'type' => 'text',
             'order' => 50,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
-        'entity:url:da' => array(
+        'entity:description:da' => array(
             'type' => 'text',
             'order' => 60,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
+        ),
+        'entity:url:da' => array(
+            'type' => 'text',
+            'order' => 70,
+            'default' => 'defaultvalue',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         // Contact fields
         'contacts:telephoneNumber' => array(
             'type' => 'text',
-            'order' => 70,
+            'order' => 80,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:company' => array(
             'type' => 'text',
-            'order' => 80,
+            'order' => 90,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:surName' => array(
             'type' => 'text',
-            'order' => 90,
+            'order' => 100,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:givenName' => array(
             'type' => 'text',
-            'order' => 100,
+            'order' => 110,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:contactType' => array(
             'type' => 'select',
             'order' => 120,
             'default' => 'technical',
             'select_values' => array("technical", "support", "administrative", "billing", "other"),
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:name' => array(
             'type' => 'text',
-            'order' => 120,
+            'order' => 130,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'contacts:emailAddress' => array(
             'type' => 'text',
-            'order' => 130,
+            'order' => 140,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:name:da' => array(
             'type' => 'text',
-            'order' => 140,
+            'order' => 150,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:description:da' => array(
             'type' => 'text',
-            'order' => 150,
+            'order' => 160,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
         'organization:url:da' => array(
             'type' => 'text',
-            'order' => 160,
+            'order' => 170,
             'default' => 'defaultvalue',
-            'description' => 'Description',
+            'description' => array(
+                'da' => 'DA - Description',
+                'en' => 'EN - Description',
+            ),
         ),
     ),
 
@@ -895,6 +1101,13 @@ $config = array(
             ),
         ),
 
+
+        // Show subscriptions
+        'showsubscriptions' => array(
+            'role' => array(
+                'admin',                
+            ),                             
+        ),
     ),
 
 

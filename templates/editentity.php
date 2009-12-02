@@ -9,10 +9,7 @@
  * @version $Id: janus-main.php 11 2009-03-27 13:51:02Z jach@wayf.dk $
  */
 $this->data['jquery'] = array('version' => '1.6', 'core' => TRUE, 'ui' => TRUE, 'css' => TRUE);
-$this->data['head']  = '<link rel="stylesheet" type="text/css" href="/' . $this->data['baseurlpath'] . 'module.php/metaedit/resources/style.css" />' .
- "\n";
-$this->data['head']  = '<link rel="stylesheet" type="text/css" href="/' . $this->data['baseurlpath'] . 'module.php/janus/resources/style.css" />' .
- "\n";
+$this->data['head']  = '<link rel="stylesheet" type="text/css" href="/' . $this->data['baseurlpath'] . 'module.php/janus/resources/style.css" />' . "\n";
 $this->data['head'] .= '<script type="text/javascript">
 $(document).ready(function() {
     $("#tabdiv").tabs();
@@ -529,7 +526,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
             echo '<div class="metadata_help_title">';
             echo $this->t('text_help');
             echo '</div>';
-            echo $v['description'];
+            echo $v['description'][$this->getLanguage()];
             echo '</div>';
         }
         echo '</td>';
