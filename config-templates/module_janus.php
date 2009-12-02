@@ -27,6 +27,7 @@ $config = array(
 
     // Cron tags says when Janus hook is executed
     'cron' => array('daily'),
+    'notify.cert.expiring.before' => 30,
 
     /**
      * Mailtoken specific stuff

@@ -50,6 +50,11 @@ function janus_hook_cron(&$croninfo) {
     try {
         $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');
 
+        if(SimpleSAML_Module::isModuleEnabled('x509')) {
+            $janus_admin_mail = $janus_config->getValue('admin.email', NULL);
+            $notify_expiring_cert_before = $janus_config->getInteger('notify.cert.expiring.before', 30);
+        }
+
         $cron_tags = $janus_config->getArray('cron', array());
         $croninfo['summary'] = array();
 
@@ -108,6 +113,38 @@ function janus_hook_cron(&$croninfo) {
                 $mcontroller->saveEntity();
                 $croninfo['summary'][] = '<p>Entity: ' . $entity_id . ' updated</p>';
             }
+            
+            // Send mail to administrator if certificate will be expired soon
+            if(SimpleSAML_Module::isModuleEnabled('x509')) {
+                $metaArray = $mcontroller->getMetaArray();
+                if(isset($metaArray['certData'])) {
+                    $days_to_expire = sspmod_x509_CertValidator::getDaysUntilExpiration($metaArray['certData']);
+                    if($days_to_expire < $notify_expiring_cert_before) {
+                        $toaddress = NULL;
+                        if(isset($metaArray['contacts'])) {
+                            $contact = array_shift($metaArray['contacts']);
+                            if(isset($contact['emailAddress'])) {
+                                $toaddress = $contact['emailAddress'];
+                            }
+                            else {
+                                $toaddress = $janus_admin_mail;
+                            }
+                        }
+                        if($toaddress != NULL) {
+                            if($days_to_expire == 0) {
+                                $message = 'Certificate of the entity_id = "'.$entity_id.'" expired';
+                            }
+                            else {
+                                $message = 'Certificate of the entity_id = "'.$entity_id.'" expire in '.$days_to_expire.' days';
+                            }
+                            $email = new SimpleSAML_XHTML_EMail($toaddress, $message, 'no-reply@simplesamlphp.com', $janus_admin_mail);
+                            $email->setBody($message);
+                            $email->send();
+                        }
+                    }
+                }
+            }
+            
         }
 
     } catch (Exception $e) {
