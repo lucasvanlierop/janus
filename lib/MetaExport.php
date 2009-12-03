@@ -64,11 +64,12 @@ class sspmod_janus_MetaExport
 
         $metadata_raw = $econtroller->getMetadata();
 
-        $metadata_required = $janus_config->getArray('metadatafields.' . $entity->getType());
+        $metadata_alowed = $janus_config->getArray('metadatafields.' . $entity->getType(), array());
+        $metadata_required = array();
 
-        foreach($metadata_required AS $k => $v) {
+        foreach($metadata_alowed AS $k => $v) {
             if(array_key_exists('required', $v) && $v['required'] === true) {
-                $required[] = $k;
+                $metadata_required[] = $k;
             }
         }
 
@@ -77,7 +78,7 @@ class sspmod_janus_MetaExport
             $metadata[] = $v->getKey();
         }
         
-        $missing_required = array_diff($required, $metadata);
+        $missing_required = array_diff($metadata_required, $metadata);
         
         if (empty($missing_required)) {
             try {

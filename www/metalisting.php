@@ -35,20 +35,27 @@ foreach ($util->getEntities() as $entity) {
     $entity_id = $mcontroller->getEntity()->getEntityid();
     $entity_type = $mcontroller->getEntity()->getType();
 
-    $metadata_keys = array();
-    foreach($metadata AS $k => $v) {
-        $metadata_keys[] = $v->getKey();
-    }
-
     $metaArray = $mcontroller->getMetaArray();
     $entry['entityid'] = $entity_id;
     $entry['entitytype'] = $entity_type;
 
     // Check if the entity has all the required fields
 
-    $requiredmeta = $janus_config->getArray('required.metadatafields.' . $entity_type,
-                                            array());
-    $missing_required = array_diff($requiredmeta, $metadata_keys);
+    $metadata_alowed = $janus_config->getArray('metadatafields.' . $entity_type, array());
+    $metadata_required = array();
+
+    foreach($metadata_alowed AS $k => $v) {
+        if(array_key_exists('required', $v) && $v['required'] === true) {
+            $metadata_required[] = $k;
+        }
+    }
+
+    $metadata_keys = array();
+    foreach($metadata AS $k => $v) {
+        $metadata_keys[] = $v->getKey();
+    }
+
+    $missing_required = array_diff($metadata_required, $metadata_keys);
 
     $entry['invalid_metadata'] = false;
     if($missing_required) {
