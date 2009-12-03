@@ -350,13 +350,25 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         assert('is_string($value);');
         assert('$this->_entity instanceof Sspmod_Janus_Entity');
 
-        $allowedfields 
+        $allowedfields = array();
+        $unique_allowedfields 
             = $this->_config->getValue(
                 'metadatafields.'. $this->_entity->getType()
             );
 
+        foreach($unique_allowedfields as $index => $unique_allowedfield) {
+            if(isset($unique_allowedfield['supported'])) {
+                foreach($unique_allowedfield['supported'] as $supported_idiom) {
+                    $allowedfields[] = $index.':'.$supported_idiom;
+                }
+            }
+            else {
+                $allowedfields[] = $index;
+            }
+        }
+
         // Check if metadata is allowed
-        if (!array_key_exists($key, $allowedfields)) {
+        if (!in_array($key, $allowedfields)) {
             SimpleSAML_Logger::info(
                 'JANUS:EntityController:addMetadata - Metadata key \''
                 . $key .' not allowed'

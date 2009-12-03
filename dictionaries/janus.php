@@ -373,12 +373,12 @@ $lang = array(
 
     'tab_disable_consent' => array(
         'da' => 'Administrativ samtykke',
-        'en' => 'Consent disabling',        
+        'en' => 'Consent disabling',
     ),
 
     'tab_disable_consent_help' => array(
         'da' => 'Herunder kan du give samtykke for alle brugere.',
-        'en' => 'Mark all services that you want to disable consent for.',        
+        'en' => 'Mark all services that you want to disable consent for.',
     ),
 
     'tab_edit_entity_connection_entityid' => array(
@@ -439,6 +439,19 @@ $lang = array(
         'da' => 'Metadata importeret korrekt',
         'en' => 'Metadata imported',
         'es' => 'Metadatos importados',
+    ),
+    
+    
+    'delete_metadata_question' => array(
+        'da' => 'Vil du slette metadata?',
+        'en' => 'Remove metadata?',
+        'es' => '¿Borrar metadatos?',
+    ),
+
+    'delete_attribute_question' => array(
+        'da' => 'Vil du slette attribute?',
+        'en' => 'Remove attribute?',
+        'es' => '¿Borrar atributo?',
     ),
 
     // Import
