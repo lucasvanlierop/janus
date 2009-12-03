@@ -476,7 +476,7 @@ $lang = array(
     'error_import_metadata_url' => array(
         'da' => 'Kan ikke importere. Ugyldig metadata URL.',
         'en' => 'Can not import. Invalid metadata URL.',
-        'es' => 'No se pudo importar. URL de metadatos no v√°lida.',
+        'es' => 'No se pudo importar. URL de metadatos no Válida.',
     ),
 
     'error_entityid_no_match' => array(
@@ -490,6 +490,13 @@ $lang = array(
         'en' => 'Error when parsing imported metadata',
         'es' => 'Error mientras se parseaban los metadatos importados',
     ),
+    
+    'error_metadata_not_parsed_due_expiration' => array(
+        'da' => 'Fejl under import af metadata, fordi de var forældede',
+        'en' => 'Error when importing metadata due metadata are expired',
+        'es' => 'Error mientras se importaban los metadatos debido a que estaban caducados',
+    ),
+
 
     'error_not_valid_saml20' => array(
         'da' => 'Fejl ved import af metadata. Ikke gyldig SAML 2.0 metadata',

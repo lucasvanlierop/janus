@@ -686,6 +686,13 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
             return 'error_metadata_not_parsed';
         }
 
+        if(isset($parsedmetadata['expire']) && $parsedmetadata['expire'] < time()) {
+            SimpleSAML_Logger::error(
+                'importMetadata20IdP - Metadata was not parsed due expiration'
+            );
+            return 'error_metadata_not_parsed_due_expiration';
+        }
+
         // Remove entity descriptor and metadata-set
         unset($parsedmetadata['entityDescriptor']);
         unset($parsedmetadata['metadata-set']);
