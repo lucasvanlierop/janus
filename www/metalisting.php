@@ -176,6 +176,8 @@ else {
             } 
         } 
     } 
+    // PHP versions prior to 5.2 don't have json_encode
+    require dirname(__FILE__) . '/../lib/jsonwrapper/jsonwrapper.php';
     echo json_encode($json); 
 }
 
