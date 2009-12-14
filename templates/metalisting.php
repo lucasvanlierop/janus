@@ -65,7 +65,7 @@ function listMetadata($t, $entries, $extended = FALSE) {
                          $t->t('validation_problem') . '" />');
                 }
             } else {
-                echo('<img class="display_inline" src="images/icons/accept.png" title="ok" alt="' .
+                echo('<img class="display_inline" src="resources/images/icons/accept.png" title="ok" alt="' .
                      $t->t('validation_success') . '" />');
             }
             
