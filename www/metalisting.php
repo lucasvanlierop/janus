@@ -77,6 +77,9 @@ foreach ($util->getEntities() as $entity) {
             $entry['invalid_certificate'] = $result;
             $entry['cert_validation'] = ((!$strict_cert_validation && in_array($result, $cert_allowed_warnings)) ? 'poor' : 'bad');
         }
+        else {
+            $entry['cert_validation'] = 'good';
+        }
 
         // Check if this cert entry is rotten
         $entry['cert_expiration_date'] = sspmod_x509_CertValidator::getDaysUntilExpiration($pem);
@@ -112,7 +115,7 @@ foreach ($util->getEntities() as $entity) {
             $entry['meta_expiration_time'] = ($metaArray['expire'] - $now)/3600;
         }
     } else {
-        $entry['meta_status'] = 'no data';
+        $entry['meta_status'] = 'no_data';
     }
 
     // Fill in some more data
@@ -159,19 +162,32 @@ if (!isset($_GET['output']) || $_GET['output'] !== 'json') {
     $t->show();
 }
 else {
-    $json = array(); 
-    $type = $_GET['type'];
+    $json = array();
+    $type = null;
+    if(isset($_GET['type'])) {	
+	$type = $_GET['type'];
+    }
     header('Content-type: application/json');
     header ("Content-Disposition: attachment; filename=federation_metadata.json"); 
-    foreach($metaentries as $entry) { 
-        for ($i=0; $i<count($entry); $i++) { 
-            if (!isset($type) || (isset($type) && $entry[$i]['entitytype'] === $type)) { 
+    foreach($metaentries as $entity_type => $entry_set) {
+        if (!isset($type) || (isset($type) && $type == $entity_type)) {
+	    foreach($entry_set as $entry) {		
+		$valid_status = 'bad';
+		if($entry['invalid_metadata'] == false && ($entry['meta_status'] == 'expires' || $entry['meta_status'] == 'expires soon' || $entry['meta_status'] == 'no_data')) {
+                    if($entry['cert_status'] == 'expires' || $entry['cert_status'] == 'expires soon') {
+                        $valid_status = $entry['cert_validation']; 
+                        if($valid_status == 'no_data') {
+                            $valid_status = 'unknown';
+                        }
+                    }
+                }
+                
                 $json[] = array( 
-                    'name'       => $entry[$i]['name'], 
-                    'url'        => $entry[$i]['url'], 
-                    'status'     => $entry[$i]['status'], 
-                    'entityid'   => $entry[$i]['entityid'], 
-                    'entitytype' => $entry[$i]['entitytype'], 
+                    'name'       => $entry['name'], 
+                    'url'        => $entry['url'], 
+                    'status'     => $valid_status, 
+                    'entityid'   => $entry['entityid'], 
+                    'entitytype' => $entry['entitytype'], 
                 ); 
             } 
         } 
