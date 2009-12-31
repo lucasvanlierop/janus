@@ -172,15 +172,15 @@ $wfstate = $this->data['entity_state'];
 
     <table>
         <tr>
-            <td class="entity_data_top"><?php echo $this->t('tab_edit_entity_connection_entityid'); ?>:</td>
-            <td class="entity_data_top"><?php echo $this->data['entity']->getEntityid(); ?></td>
+            <td class="entity_top_data"><?php echo $this->t('tab_edit_entity_connection_entityid'); ?>:</td>
+            <td><?php echo $this->data['entity']->getEntityid(); ?></td>
         </tr>
         <tr>
             <td class="entity_data_top"><?php echo $this->t('tab_edit_entity_revision_note'); ?></td>
             <td class="entity_data_top"><?php echo $this->data['entity']->getRevisionnote(); ?></td>
         </tr>
         <tr>
-            <td class="entity_data_top"> <?php echo $this->t('tab_edit_entity_parent_revision'); ?></td>
+            <td class="entity_data_top"> <?php echo $this->t('tab_edit_entity_parent_revision'); ?>:</td>
             <td class="entity_data_top"><?php
             if ($this->data['entity']->getParent() === null) {
                 echo 'No parent';
@@ -308,11 +308,11 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
 
         foreach($this->data['remote_entities'] AS $remote_entityid => $remote_data) {
             if(array_key_exists($remote_entityid, $this->data['blocked_entities'])) {
-                echo '<input class="remote_check" type="checkbox" name="add[]" value="'. $remote_entityid. '" checked />&nbsp;&nbsp;'. $remote_data['name'] .'<br />';
+                echo '<input class="remote_check" type="checkbox" name="add[]" value="'. $remote_entityid. '" checked />&nbsp;&nbsp;'. $remote_data['name'][$this->getLanguage()] .'<br />';
             } else {
-                echo '<input class="remote_check" type="checkbox" name="add[]" value="'. $remote_entityid. '" />&nbsp;&nbsp;'. $remote_data['name'] .'<br />';
+                echo '<input class="remote_check" type="checkbox" name="add[]" value="'. $remote_entityid. '" />&nbsp;&nbsp;'. $remote_data['name'][$this->getLanguage()] .'<br />';
             }
-            echo '&nbsp;&nbsp;&nbsp;'. $remote_data['description'] .'<br />';
+            echo '&nbsp;&nbsp;&nbsp;'. $remote_data['description'][$this->getLanguage()] .'<br />';
         }
     } else {
         // Access not granted to block remote entities
@@ -324,11 +324,11 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
         foreach($this->data['remote_entities'] AS $remote_entityid => $remote_data) {
             if(array_key_exists($remote_entityid, $this->data['blocked_entities'])) {
                 echo '<input class="remote_check" type="hidden" name="add[]" value="'. $remote_entityid. '" />';
-                echo '<input class="remote_check" type="checkbox" name="add_dummy[]" value="'. $remote_entityid. '" checked disabled="disabled" />&nbsp;&nbsp;'. $remote_data['name'] .'<br />';
+                echo '<input class="remote_check" type="checkbox" name="add_dummy[]" value="'. $remote_entityid. '" checked disabled="disabled" />&nbsp;&nbsp;'. $remote_data['name'][$this->getLanguage()] .'<br />';
             } else {
-                echo '<input class="remote_check" type="checkbox" name="add_dummy[]" value="'. $remote_entityid. '" disabled />&nbsp;&nbsp;'. $remote_data['name'] .'<br />';
+                echo '<input class="remote_check" type="checkbox" name="add_dummy[]" value="'. $remote_entityid. '" disabled />&nbsp;&nbsp;'. $remote_data['name'][$this->getLanguage()].'<br />';
             }
-            echo '&nbsp;&nbsp;&nbsp;'. $remote_data['description'] .'<br />';
+            echo '&nbsp;&nbsp;&nbsp;'. $remote_data['description'][$this->getLanguage()] .'<br />';
         }
     }
     ?>

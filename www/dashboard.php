@@ -1,8 +1,33 @@
 <?php
 /**
- * @author Jacob Christiansen, <jach@wayf.dk>
- * @author lorenzo.gil.sanchez
- * @author Sixto Martín, <smartin@yaco.es>
+ * No user created main file
+ *
+ * PHP version 5
+ *
+ * JANUS is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * JANUS is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JANUS. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category   SimpleSAMLphp
+ * @package    JANUS
+ * @subpackage Site
+ * @author     Jacob Christiansen <jach@wayf.dk>
+ * @author     Lorenzo Gil Sanchez <lgs@yaco.es>
+ * @author     Sixto Martín <smartin@yaco.es>
+ * @copyright  2009 Jacob Christiansen
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @version    SVN: $Id$
+ * @link       http://code.google.com/p/janus-ssp/
+ * @since      File available since Release 1.0.0
  */
 $session = SimpleSAML_Session::getInstance();
 $config = SimpleSAML_Configuration::getInstance();
@@ -10,6 +35,17 @@ $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');
 
 $authsource = $janus_config->getValue('auth', 'login-admin');
 $useridattr = $janus_config->getValue('useridattr', 'eduPersonPrincipalName');
+
+// Validate user
+if ($session->isValid($authsource)) {
+    $attributes = $session->getAttributes();
+    // Check if userid exists
+    if (!isset($attributes[$useridattr]))
+        throw new Exception('User ID is missing');
+    $userid = $attributes[$useridattr][0];
+} else {
+    SimpleSAML_Utilities::redirect(SimpleSAML_Module::getModuleURL('janus/index.php'));
+}
 
 // Backwards compatible function for checking urls
 function check_url ($url) {
@@ -31,16 +67,6 @@ function check_url ($url) {
         }
         return TRUE;
     }
-}
-
-if ($session->isValid($authsource)) {
-    $attributes = $session->getAttributes();
-    // Check if userid exists
-    if (!isset($attributes[$useridattr]))
-        throw new Exception('User ID is missing');
-    $userid = $attributes[$useridattr][0];
-} else {
-    SimpleSAML_Utilities::redirect(SimpleSAML_Module::getModuleURL('janus/index.php'));
 }
 
 $mcontrol = new sspmod_janus_UserController($janus_config);
@@ -118,7 +144,6 @@ if(isset($_GET['page'])) {
     $page = 1;
     $messages = $pm->getMessages($user->getUid());
 }
-
 $messages_total = $pm->countMessages($user->getUid());
 
 $et = new SimpleSAML_XHTML_Template($config, 'janus:dashboard.php', 'janus:janus');
@@ -133,7 +158,7 @@ $et->data['subscriptionList'] = $subscriptionList;
 $et->data['messages'] = $messages;
 $et->data['messages_total'] = $messages_total;
 $et->data['current_page'] = $page;
-$et->data['last_page'] = ceil((float)$messages_total / $pm->paginate_by);
+$et->data['last_page'] = ceil((float)$messages_total / $pm->getPaginationCount());
 $et->data['selectedtab'] = $selectedtab;
 $et->data['logouturl'] = SimpleSAML_Module::getModuleURL('core/authenticate.php') . '?logout';
 

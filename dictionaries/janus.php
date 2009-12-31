@@ -1,10 +1,33 @@
 <?php
 /**
- * @author Jacob Christiansen, <jach@wayf.dk>
- * @author Sixto Martín, <smartin@yaco.es>
+ * Main dictionary
+ *
+ * PHP version 5
+ *
+ * JANUS is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * JANUS is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JANUS. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category   SimpleSAMLphp
+ * @package    JANUS
+ * @subpackage Dictionary
+ * @author     Jacob Christiansen <jach@wayf.dk>
+ * @author     Sixto Martín, <smartin@yaco.es>
+ * @copyright  2009 Jacob Christiansen
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
+ * @version    SVN: $Id$
+ * @link       http://code.google.com/p/janus-ssp/
+ * @since      File available since Release 1.5.0
  */
-
-// Dictionary for JANUS module
 $lang = array(
 
     // new user
@@ -26,24 +49,26 @@ $lang = array(
         'es' => 'Vas a crear una cuenta de usuario en JANUS con el nombre de usuario %USERID%.<br />Pulsa enter para crear la cuenta',
     ),
 
-    'error_createuser_permission' => array(
-        'da' => 'Du kan ikke oprette en ny brugerkonto.',
-        'en' => 'You can not create a new user account.',
+    // No new user
+    'header_no_new_user' => array(
+        'da' => 'Kan ikke oprette ny bruger',
+        'en' => 'Can not create new user account',
         'es' => 'No puedes crear una nueva cuenta de usuario.',
     ),
-
-    'error_createuser_permission_reason' => array(
-        'da' => 'Systemet ikke lader dig lave din egen konto',
-        'en' => 'The system does not let you make your own account',
-        'es' => 'El sistema no permite que puedas crearte tu propia cuenta',
+    
+    'text_no_new_user' => array(
+        'da' => 'Automatisk oprettelse af nye brugerer er ikke understøttet på denne installation af JANUS.',
+        'en' => 'Automatic creation of new users is not supported on this instance of JANUS.',
+        'es' => 'La creación automática de nuevos usuarios no se admite en esta instancia de JANUS.',
     ),
 
-    'error_createuser_permission_admin_contact' => array(
-        'da' => 'skal du kontakte Janus admin.',
-        'en' => 'contact Janus admin',
-        'es' => 'contacta con el administrador de Janus',
+    'admin_contact' => array(
+        'da' => 'Skal du kontakte Janus admin.',
+        'en' => 'Contact Janus admin',
+        'es' => 'Contacta con el administrador de Janus',
     ),
 
+    
     // Misc
     'text_mimetype' => array(
         'da' => 'MIME-type',
