@@ -154,7 +154,7 @@ $wfstate = $this->data['entity_state'];
     }
 ?>
 </div>
-
+<!-- ENTITY CONNECTION -->
 <div id="entity">
     <h2><?php echo $this->t('tab_edit_entity_connection') .' - '. $this->t('tab_edit_entity_connection_revision') .' '. $this->data['revisionid']; ?></h2>
 
@@ -193,15 +193,25 @@ $wfstate = $this->data['entity_state'];
             <td class="entity_data_top"><?php echo $this->t('tab_edit_entity_state'); ?>:</td>
             <td class="entity_data_top">
             <?php
+                reset($this->data['workflowstates']);
+                $current = current($this->data['workflowstates']);
+
+                if(isset($current['name'][$this->getLanguage()])) {
+                    $curLang = $this->getLanguage();
+                } else {
+                    $curLang = 'en';
+                }
+
+
                 if($this->data['uiguard']->hasPermission('changeworkflow', $wfstate, $this->data['user']->getType())) {
                 ?>
                 <select id="entity_workflow_select" name="entity_workflow">
                 <?php
                 foreach($this->data['workflow'] AS $wf) {
                     if($wfstate == $wf) {
-                        echo '<option value="'. $wf .'" selected="selected">'. $this->data['workflowstates'][$wf]['name'][$this->getLanguage()] .'</option>';
+                        echo '<option value="'. $wf .'" selected="selected">'. $this->data['workflowstates'][$wf]['name'][$curLang] .'</option>';
                     } else {
-                        echo '<option value="'. $wf .'">'. $this->data['workflowstates'][$wf]['name'][$this->getLanguage()] .'</option>';
+                        echo '<option value="'. $wf .'">'. $this->data['workflowstates'][$wf]['name'][$curLang] .'</option>';
                     }
                 }
                 ?>
@@ -247,7 +257,7 @@ $wfstate = $this->data['entity_state'];
             <td width="30%" class="entity_data_top">
             <?php
             foreach($this->data['workflow'] AS $wf) {
-                echo '<div class="entity_help" id="wf-desc-'. $wf .'"><div class="entity_help_title">'. $this->t('text_help') .'</div>'. $this->data['workflowstates'][$wf]['description'][$this->getLanguage()] .'</div>';
+                echo '<div class="entity_help" id="wf-desc-'. $wf .'"><div class="entity_help_title">'. $this->t('text_help') .'</div>'. $this->data['workflowstates'][$wf]['description'][$curLang] .'</div>';
             }
 ?>
             </td>
@@ -333,7 +343,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
     }
     ?>
 </div>
-
+<!-- TAB METADATA -->
 <div id="metadata">
     <h2>Metadata</h2>
 
@@ -362,6 +372,9 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
                 echo 'metadata["'. $metadata_key .'"] = new Array();';
                 echo 'metadata["'. $metadata_key .'"]["type"] = "'. $metadata_val['type'] .'";';
                 echo 'metadata["'. $metadata_key .'"]["default"] = "'. $metadata_val['default'] .'";';
+                if(isset($metadata_val['validate'])) {
+                    echo 'metadata["'. $metadata_key .'"]["validate"] = "'. $metadata_val['validate'] .'";';
+                }
                 if(isset($metadata_val['select_values'])) {
                     $select_values = $metadata_val['select_values'];
                     if(is_array($metadata_val['select_values']) && !empty($metadata_val['select_values'])) {
@@ -392,7 +405,11 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
                     $('<input class="display_none" type="checkbox" value="false", name="meta_value[' + index + '-FALSE]" ' + checkedfalse + '">').appendTo(makker);
                     break;
                 case 'text':
-                    $('<input type="text" name="meta_value[' + index + ']" class="width_100" value="' + metadata[index]["default"] + '" onfocus="this.value=\'\';">').appendTo(makker);
+                    if(metadata[index]["validate"]) {
+                        $('<input type="text" name="meta_value[' + index + ']" class="width_100" value="' + metadata[index]["default"] + '" onfocus="this.value=\'\';" onKeyup="validateInput(this, \'' + metadata[index]["validate"] + '\');">').appendTo(makker);
+                    } else {
+                        $('<input type="text" name="meta_value[' + index + ']" class="width_100" value="' + metadata[index]["default"] + '" onfocus="this.value=\'\';">').appendTo(makker);
+                    }
                     break;
                 case 'select':
                     if(metadata[index]["select_values"] !== "undefined" && 
@@ -428,8 +445,10 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
         function addMetadataInput() {
             newelm = $("#add_meta").clone();
             newelm.find("input").attr("value", "");
+            newelm.find("span").text("");
             newelm.insertBefore("#mata_delim");
         }
+
         
         function delete_metadata(metadata_name) {
             if(confirm('<?php echo $this->t('delete_metadata_question'); ?>')) {
@@ -439,6 +458,35 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
             }
         }
         
+
+
+        var timer;
+
+        function validateInput(elm, func) {
+            clearTimeout(timer);
+            timer = setTimeout(function(){
+                    $.post(
+                        "AJAXRequestHandler.php",
+                        {
+                            func: "validateMetadataField",
+                            userfunc: func,
+                            value: elm.value
+                        },    
+                        function(data){
+                            var tmp = $(elm).parent().parent().find(".metadata_control");
+                            if(data.valid) {
+                                tmp.find("span").text("Valid");
+                            } else {
+                                tmp.find("span").text("Not valid");
+                            }
+                        },
+                        "json"   
+                    );
+                },
+                500       
+            );
+        }
+
     </script>
     <?php
     $deletemetadata = FALSE;
@@ -468,7 +516,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
                 $supported_idiom = str_replace($base_field_name.':', '',  $data->getKey());
             }
             echo '<tr class="'. ($i % 2 == 0 ? 'even' : 'odd'). '">';
-            echo '<td width="1%">'. $data->getkey() . '</td>';
+            echo '<td>'. $data->getkey() . '</td>';
             echo '<td>';
             if(isset($metadata_field['required'])) {
                 $requiredfield = $metadata_field['required'];
@@ -478,7 +526,8 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
 
             switch($metadata_field['type']) {
                 case 'text':
-                    echo '<input class="width_100" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . '>';
+                    $validate = isset($this->data['metadata_fields'][$data->getKey()]['validate']) ? 'onKeyup="validateInput(this, \'' . $this->data['metadata_fields'][$data->getKey()]['validate'] . '\');"' : '';
+                    echo '<input class="width_100" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . ' ' . $validate . '>';
                     break;
                 case 'boolean':
                     if($data->getValue() == 'true') {
@@ -513,7 +562,8 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
                         break;
                     }
                 default:
-                    echo '<input class="width_100" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . '>';
+                    $validate = isset($this->data['metadata_fields'][$data->getKey()]['validate']) ? 'onKeyup="validateInput(this, \'' . $this->data['metadata_fields'][$data->getKey()]['validate'] . '\');"' : '';
+                    echo '<input class="width_100" type="text" name="edit-metadata-'. $data->getKey()  .'" value="'. $data->getValue()  .'" ' . $modifymetadata . ' ' . $validate . '>';
             }
             if(isset($supported_idiom)) {
                 $index = array_search($supported_idiom, $this->data['metadata_fields'][$base_field_name]['supported']);
@@ -528,9 +578,9 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
             echo '</td>';
             if($deletemetadata && !$requiredfield) {
                 $metadata_key_parsed = str_replace(array(':', '.', '#') , array('\\\\:', '\\\\.', '\\\\#'), $data->getKey());
-                echo '<td align="right"><img onClick="javascript:{delete_metadata(\''. $metadata_key_parsed .'\');}" src="resources/images/pm_delete_16.png" alt="'. strtoupper($this->t('admin_delete')) .'" /></td>';
+                echo '<td width="100px" align="right" class="metadata_control"><img onClick="javascript:{delete_metadata(\''. $metadata_key_parsed .'\');}" src="resources/images/pm_delete_16.png" alt="'. strtoupper($this->t('admin_delete')) .'" /></td>';
             } else {
-                echo '<td></td>';
+                echo '<td align="right" width="100px" class="metadata_control"><b><span></span></b></td>';
             }
             echo '</tr>';
             $i++;
@@ -566,7 +616,7 @@ if($this->data['entity']->getType() == 'saml20-idp' || $this->data['entity']->ge
         echo '</td>';
         echo '<td>';
         echo '</td>';
-        echo '<td>';
+        echo '<td align="right" width="100px" class="metadata_control"><b><span></span></b>';
         echo '</td>';
         echo '</tr>';
         echo '<tr id="mata_delim">';
@@ -613,7 +663,11 @@ attributes["NULL"] = '';
 <?php
 foreach($this->data['attribute_fields'] AS $attribute_key => $attribute_val) {
     echo 'attributes["'. $attribute_key .'"] = new Array();';
-    echo 'attributes["'. $attribute_key .'"]["description"] = "'. $attribute_val['description'] .'";';
+    if(isset($attribute_val['description'][$this->getLanguage()])) {
+        echo 'attributes["'. $attribute_key .'"]["description"] = "'. $attribute_val['description'][$this->getLanguage()] .'";';
+    } else {
+        echo 'attributes["'. $attribute_key .'"]["description"] = "'. $attribute_val['description']['en'] .'";'; 
+    }
     echo 'attributes["'. $attribute_key .'"]["default"] = "";';
 }
 ?>
@@ -696,7 +750,7 @@ function delete_attribute(attribute_name) {
         echo '</tr>';
     }
     if(!$attributes = $this->data['mcontroller']->getAttributes()) {
-        echo "Not attributes for entity ". $this->data['entity']->getEntityid() . '<br /><br />';
+        echo '<tr><td colspan="3">Not attributes for entity '. $this->data['entity']->getEntityid() . '</td></tr>';
     } else {
         $i = 0;
         foreach($attributes AS $data) {

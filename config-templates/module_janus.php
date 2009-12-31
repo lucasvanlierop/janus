@@ -200,37 +200,61 @@ $config = array(
      */
     'attributes.saml20-sp' => array(
         'uid' => array(
-            'description' => 'The description',
+            'description' => array(
+                'da' => 'Beskrivelsen',
+                'en' => 'The description',
+            ),
         ),
         'mail' => array(
-            'description' => 'The description',
+            'description' => array(
+                'da' => 'Beskrivelsen',
+                'en' => 'The description',
+            ),
         ),
     ),
 
     'attributes.saml20-idp' => array(
         'uid' => array(
-            'description' => 'The description',
+            'description' => array(
+                'da' => 'Beskrivelsen',
+                'en' => 'The description',
+            ),
         ),
         'mail' => array(
-            'description' => 'The description',
+            'description' => array(
+                'da' => 'Beskrivelsen',
+                'en' => 'The description',
+            ),
         ),
     ),
 
     'attributes.shib13-sp' => array(
         'uid' => array(
-            'description' => 'The description',
+            'description' => array(
+                'da' => 'Beskrivelsen',
+                'en' => 'The description',
+            ),
         ),
         'mail' => array(
-            'description' => 'The description',
+            'description' => array(
+                'da' => 'Beskrivelsen',
+                'en' => 'The description',
+            ),
         ),
     ),
 
     'attributes.shib13-idp' => array(
         'uid' => array(
-            'description' => 'The description',
+            'description' => array(
+                'da' => 'Beskrivelsen',
+                'en' => 'The description',
+            ),
         ),
         'mail' => array(
-            'description' => 'The description',
+            'description' => array(
+                'da' => 'Beskrivelsen',
+                'en' => 'The description',
+            ),
         ),
     ),
 
@@ -269,6 +293,7 @@ $config = array(
                 'en' => 'EN - Description',
                 'es' => 'Pequeña secuencia de bytes obtenida aplicando una funcion hash al certificado certData.',
             ),
+            'validate' => 'leneq40',
         ),
         'certData' => array(
             'type' => 'text',
@@ -645,6 +670,7 @@ $config = array(
                 'en' => 'EN - Description',
                 'es' => 'Cero o mas elementos de tipo type anyURI que enumeran los formatos de identificacion de nombres soportados por la entidad sistema. Ver la seccion 8.3 de [SAMLCore] para ver algunos posibles valores para este elemento.',
             ),
+            'validate' => 'leneq40',
         ),
         'certData' => array(
             'type' => 'text',
@@ -1029,7 +1055,6 @@ $config = array(
 
     /* Certificate which should be included in the signature. Should correspond to the private key. */
     'sign.certificate' => 'server.crt',
-
 
     /*
      * Access configuration of JANUS.

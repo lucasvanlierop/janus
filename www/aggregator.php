@@ -1,3 +1,4 @@
+<<<<<<< .working
 <?php
 /**
  * @author Sixto Martín, <smartin@yaco.es>

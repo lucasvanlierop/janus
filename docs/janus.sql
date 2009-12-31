@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `janus__attribute`;
 CREATE TABLE `janus__attribute` (
-  `entityid` text NOT NULL,
+  `eid` text NOT NULL,
   `revisionid` int(11) NOT NULL,
   `key` text NOT NULL,
   `value` text NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE `janus__attribute` (
 
 DROP TABLE IF EXISTS `janus__blockedEntity`;
 CREATE TABLE `janus__blockedEntity` (
-  `entityid` text NOT NULL,
+  `eid` text NOT NULL,
   `revisionid` int(11) NOT NULL,
   `remoteentityid` text NOT NULL,
   `created` char(25) NOT NULL,
