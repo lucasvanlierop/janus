@@ -827,6 +827,7 @@ $lang = array(
         'es' => 'Metadatos exportados a destino externo',
     ),
 
+
     'validation_metadata_column' => array(
         'da' => 'Metadata gyldigt',
         'en' => 'Valid Metadata',
@@ -910,6 +911,7 @@ $lang = array(
         'en' => 'Metadata expired',
         'es' => 'Metadatos Caducados',
     ),
+
 
     /*
     

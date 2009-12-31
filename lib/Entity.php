@@ -182,7 +182,8 @@ class sspmod_janus_Entity extends sspmod_janus_Database
             $st = $this->execute(
                 'INSERT INTO '. self::$prefix .'entity 
                 (`eid`, `entityid`, `revisionid`, `state`, `type`, 
-                `expiration`, `metadataurl`, `allowedall`, `created`, `ip`, `parent`, `revisionnote`) 
+                `expiration`, `metadataurl`, `allowedall`, `created`, 
+                `ip`, `parent`, `revisionnote`) 
                 VALUES 
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',
                 array(
@@ -570,7 +571,7 @@ class sspmod_janus_Entity extends sspmod_janus_Database
     /**
      * Set entity workflow
      *
-     * @param string $state Entity workflow
+     * @param string $workflow Entity workflow
      *
      * @return bool True if workflow was changed
      * @since Method available since Release 1.0.0
@@ -657,7 +658,12 @@ class sspmod_janus_Entity extends sspmod_janus_Database
     }
 
     /**
-     * set entity metadata expiration date.
+     * Set the metadata URL
+     *
+     * @param string $url The metadata URL
+     *
+     * @return void
+     * @since Method available since Release 1.4.0
      */
     public function setExpiration($expiration)
     {

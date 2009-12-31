@@ -79,7 +79,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      *
      * Constructs a EntityController object.
      *
-     * @param SimpleSAML_Configuration &$config Global SSP configuration
+     * @param SimpleSAML_Configuration $config Global SSP configuration
      */
     public function __construct(SimpleSAML_Configuration $config)
     {
@@ -586,9 +586,9 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
 
         // Add metadata fields
         foreach ($parsedmetadata AS $key => $value) {
-            if($key == 'AssertionConsumerService') {
-                if(is_array($value)) {
-                    foreach($value AS $subvalue) {
+            if ($key == 'AssertionConsumerService') {
+                if (is_array($value)) {
+                    foreach ($value AS $subvalue) {
                         if ($this->hasMetadata($key)) {
                             if (!$this->updateMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::info(
@@ -606,9 +606,9 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                         }
                     }
                 }
-            } elseif($key == 'SingleLogoutService') {
-                if(is_array($value)) {
-                    foreach($value AS $subvalue) {
+            } elseif ($key == 'SingleLogoutService') {
+                if (is_array($value)) {
+                    foreach ($value AS $subvalue) {
                         if ($this->hasMetadata($key)) {
                             if (!$this->updateMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::info(
@@ -731,11 +731,13 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                     }
                 } else {
                     // Should not happen
-                    SimpleSAML_Logger::debug('importMetadata20IdP - name field not array');
+                    SimpleSAML_Logger::debug(
+                        'importMetadata20IdP - name field not array'
+                    );
                 }
             } elseif ($key == 'SingleSignOnService') {
                 if (is_array($value)) {
-                    if(empty($value)) {
+                    if (empty($value)) {
                         continue;
                     }
                     foreach ($value AS $metadatavalue) {
@@ -757,11 +759,13 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                     }
                 } else {
                     // Should not happen
-                    SimpleSAML_Logger::debug('importMetadata20IdP - SingleSignOnService field not array');
+                    SimpleSAML_Logger::debug(
+                        'importMetadata20IdP - SingleSignOnService field not array'
+                    );
                 }
             } elseif ($key == 'SingleLogoutService') {
                 if (is_array($value)) {
-                    if(empty($value)) {
+                    if (empty($value)) {
                         continue;
                     }
                     foreach ($value AS $metadatavalue) {
@@ -783,11 +787,13 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                     }
                 } else {
                     // Should not happen
-                    SimpleSAML_Logger::debug('importMetadata20IdP - SingleLogoutService field not array');
+                    SimpleSAML_Logger::debug(
+                        'importMetadata20IdP - SingleLogoutService field not array'
+                    );
                 }
             } elseif ($key == 'ArtifactResolutionService') {
                 if (is_array($value)) {
-                    if(empty($value)) {
+                    if (empty($value)) {
                         continue;
                     }
                     foreach ($value AS $metadatavalue) {
@@ -809,7 +815,9 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                     }
                 } else {
                     // Should not happen
-                    SimpleSAML_Logger::debug('importMetadata20IdP - ArtifactResolutionService field not array');
+                    SimpleSAML_Logger::debug(
+                        'importMetadata20IdP - ArtifactResolutionService field not array'
+                    );
                 }
             } elseif ($key == 'description') {
                 // Not user in SAML2 metadata. Only used in SSP flatfile metadata
@@ -898,7 +906,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      *
      * Ask if the given metadata exist
      *
-     * @param string $key  Metadata key
+     * @param string $key Metadata key
      *
      * @return bool Return TRUE if the Metadata exists. FALSE otherwise
      */
@@ -1205,8 +1213,13 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         return true;
     }
 
-
-    public function getMetaArray() {
+    /**
+     * Get all metadata for the entity
+     *
+     * @return false|array Array with metadata or false on error
+     */
+    public function getMetaArray()
+    {
         if (empty($this->_metadata)) {
             if (!$this->_loadMetadata()) {
                 return false;
@@ -1221,42 +1234,42 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         $metaArray = array();
         $metaArray['contacts'] = array();
         $metaArray['organization'] = array();
-        foreach($this->_metadata AS $data) {
-            if(preg_match('/entity:name:([\w]{2})$/', $data->getKey(), $matches)) {
-            	$metaArray['name'][$matches[1]] = $data->getValue();
-            } elseif(preg_match('/entity:description:([\w]{2})$/', $data->getKey(), $matches)) {
+        foreach ($this->_metadata AS $data) {
+            if (preg_match('/entity:name:([\w]{2})$/', $data->getKey(), $matches)) {
+                $metaArray['name'][$matches[1]] = $data->getValue();
+            } elseif (preg_match('/entity:description:([\w]{2})$/', $data->getKey(), $matches)) {
                 $metaArray['description'][$matches[1]] = $data->getValue();
-            } elseif(preg_match('/entity:url:([\w]{2})$/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/entity:url:([\w]{2})$/', $data->getKey(), $matches)) {
                 $metaArray['url'][$matches[1]] = $data->getValue();
-            } elseif(preg_match('/organization:name:([\w]{2})$/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/organization:name:([\w]{2})$/', $data->getKey(), $matches)) {
                 $metaArray['organization']['name'][$matches[1]] = $data->getValue();
-            } elseif(preg_match('/organization:description:([\w]{2})$/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/organization:description:([\w]{2})$/', $data->getKey(), $matches)) {
                 $metaArray['organization']['description'][$matches[1]] = $data->getValue();
-            } elseif(preg_match('/organization:url:([\w]{2})$/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/organization:url:([\w]{2})$/', $data->getKey(), $matches)) {
                 $metaArray['organization']['url'][$matches[1]] = $data->getValue();
-            } elseif(preg_match('/contacts:name/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/contacts:name/', $data->getKey(), $matches)) {
                 $metaArray['contacts'][1]['name'] = $data->getValue();
-            } elseif(preg_match('/contacts:emailAddress/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/contacts:emailAddress/', $data->getKey(), $matches)) {
                 $metaArray['contacts'][1]['emailAddress'] = $data->getValue();
-            } elseif(preg_match('/contacts:givenName/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/contacts:givenName/', $data->getKey(), $matches)) {
                 $metaArray['contacts'][1]['givenName'] = $data->getValue();
-            } elseif(preg_match('/contacts:surName/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/contacts:surName/', $data->getKey(), $matches)) {
                 $metaArray['contacts'][1]['surName'] = $data->getValue();
-            } elseif(preg_match('/contacts:contactType/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/contacts:contactType/', $data->getKey(), $matches)) {
                 $metaArray['contacts'][1]['contactType'] = $data->getValue();
-            } elseif(preg_match('/contacts:company/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/contacts:company/', $data->getKey(), $matches)) {
                 $metaArray['contacts'][1]['company'] = $data->getValue();
-            } elseif(preg_match('/contacts:telephoneNumber/', $data->getKey(), $matches)) {
+            } elseif (preg_match('/contacts:telephoneNumber/', $data->getKey(), $matches)) {
                 $metaArray['contacts'][1]['telephoneNumber'] = $data->getValue();
             } else {
                 $metaArray[$data->getKey()] = $data->getValue();
             }
         }
 
-        if(empty($metaArray['organization'])) {
+        if (empty($metaArray['organization'])) {
             unset($metaArray['organization']);
         }
-        if(empty($metaArray['contacts'])) {
+        if (empty($metaArray['contacts'])) {
             unset($metaArray['contacts']);
         }
 
@@ -1270,26 +1283,34 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         $metaArray['metadata-set'] = $this->_entity->getType().'-remote';
 
         if (!array_key_exists('NameIDFormat', $metaArray)) {
-            if($entity_type == 'saml20-idp' || $entity_type == 'saml20-sp') {
-                $metaArray['NameIDFormat'] = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient';
-            } else if($entity_type == 'shib13-idp' || $entity_type == 'shib13-idp') {
+            if ($entity_type == 'saml20-idp' || $entity_type == 'saml20-sp') {
+                $metaArray['NameIDFormat'] 
+                    = 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient';
+            } else if ($entity_type == 'shib13-idp' || $entity_type == 'shib13-idp') {
                 $metaArray['NameIDFormat'] = 'urn:mace:shibboleth:1.0:nameIdentifier';
             }
         } 
 
-        if(!empty($this->_attributes)) {
-            foreach($this->_attributes AS $attr) {
+        if (!empty($this->_attributes)) {
+            foreach ($this->_attributes AS $attr) {
                 $metaArray['attributes'][] = $attr->getKey();
             }
         }
 
-        if(!isset($metaArray['name'])) {
+        if (!isset($metaArray['name'])) {
             $metaArray['name']['en'] = $this->_entity->getEntityid();
         }
 
         return $metaArray;
     }
     
+    /**
+     * Disable consent for remote entity
+     *
+     * @param string $remoteentityid Entityid of remote entity
+     *
+     * @return bool True on success and false on error
+     */
     public function addDisableConsent($remoteentityid)
     {
         assert('is_string($remoteentityid)');
@@ -1303,6 +1324,13 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         return false;
     }
 
+    /**
+     * Enable consent for remote entity
+     *
+     * @param string $remoteentityid Entityid of remote entity
+     *
+     * @return true Always return true
+     */
     public function removeDisableConsent($remoteentityid)
     {
         assert('is_string($remoteentityid)');
@@ -1313,6 +1341,11 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         return true;
     }
     
+    /**
+     * Retrive all remote entities with consent disabled
+     *
+     * @return array Remote entities
+     */
     public function getDisableConsent()
     {
         assert('$this->_entity instanceof Sspmod_Janus_Entity');
@@ -1325,6 +1358,11 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         return $this->_disableConsent;
     }
 
+    /**
+     * Get disabled consent from database
+     *
+     * @return bool True on success and false on error
+     */
     private function _loadDisableConsent()
     {
         $st = $this->execute(
@@ -1349,6 +1387,13 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         return true;
     }
     
+    /**
+     * Save disable consent to database
+     *
+     * @param int $revision The current revision number
+     *
+     * @return bool True on success and false on error
+     */
     private function _saveDisableConsent($revision)
     {
         if ($this->_modified) {
@@ -1374,6 +1419,11 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         return true;
     }
 
+    /**
+     * Enable consent for all remote entities
+     *
+     * @return true Always return true
+     */
     public function clearConsent()
     {
         $this->_disableConsent = array();
@@ -1381,5 +1431,25 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
 
         return true;
     } 
+    
+    /**
+     * set the metadata URL
+     *
+     * @param string $url Metadata URL
+     *
+     * @return bool True on success and false on error
+     */
+    public function setMetadataURL($url)
+    {
+        assert('is_string($url)');
+
+        if ($this->_entity->getMetadataURL() != $url) {
+            $this->_entity->setMetadataURL($url);
+            $this->_modified = true;
+            return true;
+        }
+        return false;
+    }
+
 }
 ?>
