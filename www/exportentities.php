@@ -83,6 +83,15 @@ try {
     $entitiesDescriptor = $xml->createElementNS('urn:oasis:names:tc:SAML:2.0:metadata', 'EntitiesDescriptor');
     $entitiesDescriptorName = $janus_config->getString('export.entitiesDescriptorName', 'Federation');
     $entitiesDescriptor->setAttribute('Name', $entitiesDescriptorName);
+
+    if($maxCache !== NULL) {
+        $entitiesDescriptor->setAttribute('cacheDuration', 'PT' . $maxCache . 'S');
+    }
+
+    if($maxDuration !== NULL) {
+        $entitiesDescriptor->setAttribute('validUntil', SimpleSAML_Utilities::generateTimestamp(time() + $maxDuration));
+    }
+
     $xml->appendChild($entitiesDescriptor);
 
     foreach ($entities as $entity) {
@@ -90,8 +99,8 @@ try {
             $entity['eid'], 
             $entity['revisionid'], 
             array(
-                'maxCache' => $janus_config->getValue('maxCache', NULL), 
-                'maxDuration' => $janus_config->getValue('maxDuration', NULL)
+                'maxCache' => $maxCache, 
+                'maxDuration' => $maxDuration
             )
         );
 
@@ -155,8 +164,15 @@ try {
     /* Show the metadata. */
     if(array_key_exists('mimetype', $_GET)) {
         $mimeType = $_GET['mimetype'];
+        if($mimeType == 'text/plain') {
+            header('Content-Disposition: attachment; filename="federation.txt"');
+        }
+        else {
+            header('Content-Disposition: attachment; filename="federation.xml"');
+        }
     } else {
         $mimeType = 'application/samlmetadata+xml';
+        header('Content-Disposition: attachment; filename="federation.xml"');
     }
     header('Content-Type: ' . $mimeType);
     echo($xml->saveXML());
