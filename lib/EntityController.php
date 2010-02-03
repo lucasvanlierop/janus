@@ -593,14 +593,14 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                             if (!$this->updateMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20SP - Metadata field ' . $key 
-                                    . ' with value ' . $subvalue . ' was not added.'
+                                    . ' with value ' . $subvalue['Location'] . ' was not updated.'
                                 );
                             }
                         } else {
                             if (!$this->addMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20SP - Metadata field ' . $key 
-                                    . ' with value ' . $subvalue . ' was not added.'
+                                    . ' with value ' . $subvalue['Location'] . ' was not added.'
                                 );
                             }
                         }
@@ -613,14 +613,14 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                             if (!$this->updateMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20SP - Metadata field ' . $key 
-                                    . ' with value ' . $subvalue . ' was not added.'
+                                    . ' with value ' . $subvalue['Location'] . ' was not updated.'
                                 );
                             }
                         } else {
                             if (!$this->addMetadata($key, $subvalue['Location'])) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20SP - Metadata field ' . $key 
-                                    . ' with value ' . $subvalue . ' was not added.'
+                                    . ' with value ' . $subvalue['Location'] . ' was not added.'
                                 );
                             }
                         }
@@ -631,7 +631,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                     if (!$this->updateMetadata($key, $value)) {
                         SimpleSAML_Logger::info(
                             'importMetadata20SP - Metadata field ' . $key 
-                            . ' with value ' . $value . ' was not added.'
+                            . ' with value ' . $value . ' was not updated.'
                         );
                     }
                 } else {
@@ -717,7 +717,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                             if (!$this->updateMetadata($metadatakey, $metadatavalue)) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20IdP - Metadata field ' . $key 
-                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                    . ' with value ' . $metadatavalue . ' was not updated.'
                                 );
                             }
                         } else {
@@ -745,14 +745,14 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                             if (!$this->updateMetadata($key, $metadatavalue['Location'])) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20IdP - Metadata field ' . $key 
-                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                    . ' with value ' . $metadatavalue['Location'] . ' was not updated.'
                                 );
                             }
                         } else {
                             if (!$this->addMetadata($key, $metadatavalue)) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20IdP - Metadata field ' . $key 
-                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                    . ' with value ' . $metadatavalue['Location'] . ' was not added.'
                                 );
                             }
                         }
@@ -773,7 +773,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                             if (!$this->updateMetadata($key, $metadatavalue['Location'])) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20IdP - Metadata field ' . $key 
-                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                    . ' with value ' . $metadatavalue['Location'] . ' was not updated.'
                                 );
                             }
                         } else {
@@ -801,7 +801,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                             if (!$this->updateMetadata($key, $metadatavalue['Location'])) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20IdP - Metadata field ' . $key 
-                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                    . ' with value ' . $metadatavalue['Location'] . ' was not updated.'
                                 );
                             }
                         } else {
@@ -829,7 +829,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                             if (!$this->updateMetadata('certFingerprint', $metadatavalue)) {
                                 SimpleSAML_Logger::info(
                                     'importMetadata20IdP - Metadata field ' . $key 
-                                    . ' with value ' . $metadatavalue . ' was not added.'
+                                    . ' with value ' . $metadatavalue . ' was not updated.'
                                 );
                             }
                         } else {
@@ -850,7 +850,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
                     if (!$this->updateMetadata($key, $value)) {
                         SimpleSAML_Logger::info(
                             'importMetadata20IdP - Metadata field ' . $key 
-                            . ' with value ' . $value . ' was not added.'
+                            . ' with value ' . $value . ' was not updated.'
                         );
                     }
                 } else {

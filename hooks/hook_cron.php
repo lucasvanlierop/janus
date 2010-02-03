@@ -74,12 +74,17 @@ function janus_hook_cron(&$croninfo) {
                 continue;
             }
 
+            $updated = false;
+
             $mcontroller->loadEntity();
             $entity = $mcontroller->getEntity();
             $entity_id = $entity->getEntityId();
             $metadata_url = $entity->getMetadataURL();
 
             if (empty($metadata_url)) {
+                SimpleSAML_Logger::debug(
+                    'janus_hook_cron - Metadata URL is empty'
+                );
                 continue;
             }
 
@@ -90,22 +95,25 @@ function janus_hook_cron(&$croninfo) {
             }
 
             if($entity->getType() == 'saml20-sp') {
-                if($mcontroller->importMetadata20SP($xml)) {
+                if($mcontroller->importMetadata20SP($xml) === 'status_metadata_parsed_ok') {
                     $updated = true;
                 }
                 else {
                     $croninfo['summary'][] = '<p>Entity: ' . $entity_id . ' not updated</p>';
+                    $updated = false;
                 }
             } else if($entity->getType() == 'saml20-idp') {
-                if($mcontroller->importMetadata20IdP($xml)) {
+                if($mcontroller->importMetadata20IdP($xml) === 'status_metadata_parsed_ok') {
                     $updated = true;
                 }
                 else {
                     $croninfo['summary'][] = '<p>Entity: '. $entity_id . ' not updated</p>';
+                    $updated = false;
                 }
             }
             else {
                 $croninfo['summary'][] = '<p>Error during janus cron: failed import entity ' . $entity_id . '. Wrong type</p>';
+                $updated = false;
             }
 
             if ($updated) {
