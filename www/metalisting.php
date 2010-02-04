@@ -72,10 +72,17 @@ foreach ($util->getEntities() as $entity) {
         $pem = trim($metaArray['certData']);
         $pem = chunk_split($pem, 64, "\r\n");
         $pem = substr($pem, 0, -1); // remove the last \n character
-        $result = sspmod_x509_CertValidator::validateCert($pem, true);
+        $result = sspmod_x509_CertValidator::validateCert($pem, true, false);
         if ($result != 'cert_validation_success') {
             $entry['invalid_certificate'] = $result;
             $entry['cert_validation'] = ((!$strict_cert_validation && in_array($result, $cert_allowed_warnings)) ? 'poor' : 'bad');
+
+	    // Try one more time with OCSP
+	    $result2 = sspmod_x509_Certvalidator::validateCert($pem, false, true);
+	    if ($result2 == 'cert_validation_success') {
+		$entry['cert_validation'] = 'good';
+		$entry['invalid_certificate'] = false;
+	    }
         }
         else {
             $entry['cert_validation'] = 'good';
