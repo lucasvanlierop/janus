@@ -89,8 +89,8 @@ function janus_hook_cron(&$croninfo) {
             }
 
             $xml = file_get_contents($metadata_url);
-	    $filename = '/var/www/metadata/simplesamlphp/log/' . $entity->getEid() . date("-Y-m-d-H-i") . '.xml';
-	    file_put_contents($filename, $xml);
+	    //$filename = '/var/www/metadata/simplesamlphp/log/' . $entity->getEid() . date("-Y-m-d-H-i") . '.xml';
+	    //file_put_contents($filename, $xml);
             if (!$xml) {
                 $croninfo['summary'][] = 'Error during janus cron: failed import entity. Bad URL. ' . $entity_id;
                 continue;
