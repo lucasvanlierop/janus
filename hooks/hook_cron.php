@@ -97,25 +97,16 @@ function janus_hook_cron(&$croninfo) {
             }
 
             if($entity->getType() == 'saml20-sp') {
-                if($mcontroller->importMetadata20SP($xml) === 'status_metadata_parsed_ok') {
-                    $updated = true;
-                }
-                else {
+                if(!$mcontroller->importMetadata20SP($xml, $updated) === 'status_metadata_parsed_ok') {
                     $croninfo['summary'][] = '<p>Entity: ' . $entity_id . ' not updated</p>';
-                    $updated = false;
                 }
             } else if($entity->getType() == 'saml20-idp') {
-                if($mcontroller->importMetadata20IdP($xml) === 'status_metadata_parsed_ok') {
-                    $updated = true;
-                }
-                else {
+                if(!$mcontroller->importMetadata20IdP($xml, $updated) === 'status_metadata_parsed_ok') {
                     $croninfo['summary'][] = '<p>Entity: '. $entity_id . ' not updated</p>';
-                    $updated = false;
                 }
             }
             else {
                 $croninfo['summary'][] = '<p>Error during janus cron: failed import entity ' . $entity_id . '. Wrong type</p>';
-                $updated = false;
             }
 
             if ($updated) {
