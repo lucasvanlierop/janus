@@ -62,6 +62,7 @@ CREATE TABLE `janus__entity` (
   `revisionnote` text
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+CREATE UNIQUE INDEX `janus__entity__eid_revisionid`  ON `janus__entity`(`eid`, `revisionid`);
 --
 -- Table structure for table `janus__hasEntity`
 --
@@ -87,6 +88,8 @@ CREATE TABLE `janus__metadata` (
   `created` char(25) NOT NULL,
   `ip` char(15) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+CREATE UNIQUE INDEX `janus__metadata__eid_revisionid_key`  ON `janus__metadata`(`eid`, `revisionid`, `key`(50));
 
 --
 -- Table structure for table `janus__tokens`
