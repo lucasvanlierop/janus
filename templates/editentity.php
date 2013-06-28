@@ -6,7 +6,7 @@
  * @author Sixto Martín, <smartin@yaco.es>
  * @package simpleSAMLphp
  * @subpackage JANUS
- * @version $Id: janus-main.php 11 2009-03-27 13:51:02Z jach@wayf.dk $
+ * @version $Id$
  * @todo     Use some sort of form generator to reduce to amount of code and make it more robust
  */
 $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');

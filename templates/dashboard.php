@@ -6,7 +6,7 @@
  * @author     Sixto Martín, <smartin@yaco.es>
  * @package    simpleSAMLphp
  * @subpackage JANUS
- * @version    $Id: janus-main.php 11 2009-03-27 13:51:02Z jach@wayf.dk $
+ * @version    $Id$
  */
 define('MODULE_JANUS_URL', '/' . $this->data['baseurlpath'] . 'module.php/janus');
 define('DASHBOARD_URL', MODULE_JANUS_URL .'/dashboard.php');

@@ -6,7 +6,7 @@
  * @author     pitbulk
  * @package    simpleSAMLphp
  * @subpackage JANUS
- * @version    $Id: janus-main.php 11 2009-03-27 13:51:02Z jach@wayf.dk $
+ * @version    $Id$
  */
 $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');
 $this->data['jquery'] = array('version' => '1.6', 'core' => TRUE, 'ui' => TRUE, 'css' => TRUE);
